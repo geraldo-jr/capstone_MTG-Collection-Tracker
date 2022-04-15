@@ -1,0 +1,27 @@
+{
+  "name": "capstone_mtg-collection-tracker",
+  "version": "1.0.0",
+  "description": "Project group for IT SD Capsone class at CVTC. This project has the purpose of creating a basic webapp product to help MTG players to organize their collections and create decks with it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geraldo-jr/capstone_MTG-Collection-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geraldo-jr/capstone_MTG-Collection-Tracker/issues"
+  },
+  "homepage": "https://github.com/geraldo-jr/capstone_MTG-Collection-Tracker#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "path": "^0.12.7",
+    "pq": "^0.0.3",
+    "save": "^2.4.0"
+  }
+}
