@@ -29,3 +29,5 @@ express()
     }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  // Stoped at minute 4:16 of second video
+  // I also included the .env file but didn't push it to git or heroku. Not sure if it's necessary.
