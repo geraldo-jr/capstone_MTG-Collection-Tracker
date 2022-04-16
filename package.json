@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/geraldo-jr/capstone_MTG-Collection-Tracker#readme",
   "dependencies": {
+    "ejs": "^3.0.2",
     "express": "^4.17.3",
     "path": "^0.12.7",
     "pg": "^8.7.3",
