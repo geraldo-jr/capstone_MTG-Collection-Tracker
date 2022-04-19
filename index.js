@@ -45,7 +45,7 @@ express()
 			);
 
       const users = await client.query(
-        `SELECT last_name, uusername FROM users;`
+        `SELECT user_id, last_name, username FROM users;`
       );
       
       const locals = {
@@ -71,8 +71,8 @@ express()
       const userLast_name = req.body.last_name;
       
       const sqlInsert = await client.query(
-        `INSERT INTO users (user_id, password, uUsername, email, first_name, last_name)
-        VALUES (123, '${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
+        `INSERT INTO users (password, username, email, first_name, last_name)
+        VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
         RETURNING user_id as new_id;`);
 
       // console.log(`Tracking task ${userId}`);
