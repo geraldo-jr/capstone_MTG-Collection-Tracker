@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTG Collection Tracker App</title>
+</head>
+<body>
+  <h1>Welcome to MTG Collection Tracker</h1>
+  <h3>It's working great!</h3>
+  <div>
+    <h3>User signup:</h3>
+    <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"> 
+    <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
+    <label for="username">Username*: </label> <input type="text" id="username" name="username" placeholder="@NewCoolUsername" required><br>
+    <label for="email">Email*: </label> <input type="email" id="email" pattern=".+@globex\.com" size="30" required><br>
+    <label for="pass">Password* (8 characters minimum): </label> <input type="password" id="pass" name="password" minlength="8" required><br>
+    <input type="submit" value="Create User" onclick="javascript:createNewUser()">
+  </div>
+  <a href="db-info">Check DB insert and info</a>
+  <script>
+    let currentUserId = null;
+    const createNewUser = async function(id) {
+      const uFirstName= document.querySelector('#first_name').value;
+      const uLastName= document.querySelector('#last_name').value;
+      const uUsername= document.querySelector('#username').value;
+      const uEmail= document.querySelector('#email').value;
+      const uPassword = document.querySelector('#pass').value;
+
+      console.log(uFirstName + " " + uLastName + " " + uUsername + " " + uEmail + " " + uPassword);
+      
+      const response = await fetch('/log', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          password: uPassword,
+          username: uUsername,
+          email: uEmail,
+          first_name: uFirstName,
+          last_name: uLastName
+        })
+      });
+      const result = await response.json();
+      console.log(result);
+
+      currentUserId = id;
+    };
+  </script>
+</body>
+</html>

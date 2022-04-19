@@ -9,7 +9,11 @@
 <body>
   <h1>Database Tables</h1>
   <% tables.forEach(function(r) { %>
-    <li><%= r.table %>: <%= r.column %> (<%= r.type %></li>
+    <li><%= r.table %>: <%= r.column %> (<%= r.type %>)</li>
+  <% }); %>
+  <h2>Users registered:</h2>
+  <% users.forEach(function(r) { %>
+    <li><%= r.last_name %> has the username of <%= r.uusername %></li>
   <% }); %>
 </body>
 </html>
