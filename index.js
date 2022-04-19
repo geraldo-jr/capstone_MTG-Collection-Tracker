@@ -70,18 +70,10 @@ express()
       const userFirst_name = req.body.first_name;
       const userLast_name = req.body.last_name;
       
-      console.log(userPassword + " " + userUsername + " " + userEmail + " " + userFirst_name + " " + userLast_name);
-      const sql = `INSERT INTO users (password, uusername, email, first_name, last_name)
-      VALUES (${userPassword}, ${userUsername}, ${userEmail}, ${userFirst_name}, ${userLast_name})
-      RETURNING user_id as new_id;`;
-      console.log(sql);
-
       const sqlInsert = await client.query(
         `INSERT INTO users (user_id, password, uUsername, email, first_name, last_name)
         VALUES (123, '${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
         RETURNING user_id as new_id;`);
-
-      console.log(sqlInsert);
 
       // console.log(`Tracking task ${userId}`);
 
