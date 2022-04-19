@@ -91,8 +91,3 @@ express()
     }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-  function catchError(err) {
-    console.error(err);
-    res.send("Error: " + err);
-  }
