@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
+const mtg = require('mtgsdk');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -19,6 +20,26 @@ express()
   .get('/', async(req, res) => {
     try {
       const client = await pool.connect();
+
+      // Using API via SDK
+      mtg.card.all({ name: 'Echo Mage'})
+      .on('data', card => {
+          console.log(card.name);
+          console.log(card.text);
+          console.log(card.artist);
+          console.log(card.imageUrl);
+      });
+
+      // Using API directly through get requests and fetch. Still need to figure out how to use fetch here
+      // var requestOptions = {
+      //   method: 'GET',
+      //   redirect: 'follow'
+      // };
+      
+      // fetch("http://api.magicthegathering.io/v1/cards?name=Echo Mage", requestOptions)
+      //   .then(response => response.text())
+      //   .then(result => console.log(result.name))
+      //   .catch(error => console.log('error', error));
 
       res.render('pages/index');
 
@@ -91,4 +112,3 @@ express()
     }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-  // test
