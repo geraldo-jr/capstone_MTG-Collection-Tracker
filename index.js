@@ -19,16 +19,8 @@ express()
   .set('view engine', 'ejs')
   .get('/', async(req, res) => {
     try {
-      const client = await pool.connect();
-
-      // Using API via SDK
-      mtg.card.all({ name: 'Echo Mage'})
-      .on('data', card => {
-          console.log(card.name);
-          console.log(card.text);
-          console.log(card.artist);
-          console.log(card.imageUrl);
-      });
+      
+      res.render('pages/index');
 
       // Using API directly through get requests and fetch. Still need to figure out how to use fetch here
       // var requestOptions = {
@@ -41,14 +33,38 @@ express()
       //   .then(result => console.log(result.name))
       //   .catch(error => console.log('error', error));
 
-      res.render('pages/index');
 
-      client.release();
     } catch (err) {
 
       console.error(err);
       res.send("Error: " + err);
       
+    }
+  })
+  .post('/fetchCard' , async(req, res) => {
+    try {
+
+      const cardNameInserted = req.body.card_name;
+
+      mtg.card.where({ name: cardNameInserted})
+      .then(cards => {
+        if(cards[0] === undefined) {
+          let cardNameNotFound = {'cardSelected': '"' + cardNameInserted + '"' + " is not a valid card name"};
+          res.send(cardNameNotFound);
+
+        } else {
+          const locals = {
+            'cardSelected': (cards) ? cards[0].text : null
+          };
+
+          res.send(locals);
+        } 
+        
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
     }
   })
   .get('/db-info', async(red, res) => {

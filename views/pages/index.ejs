@@ -19,7 +19,37 @@
     <input type="submit" value="Create User" onclick="javascript:createNewUser()">
   </div>
   <a href="db-info">Check DB insert and info</a>
+  <br>
+  <br>
+  <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
+  <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()">
+  <br>
+  <span>Result:</span>
+  <div id="displayCardSelected">
+  </div>
   <script>
+    // Fetching card from API
+    const getCardInfo = async function() {
+      const cardName = document.getElementById('cardSelectionInput').value;
+      
+      const response = await fetch('/fetchCard', {
+        method: 'POST', 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          card_name: cardName
+        })
+      })
+      
+      const result = await response.json();
+      document.getElementById('displayCardSelected').innerText = result.cardSelected;
+
+      console.log(result);
+    };
+
+    // Saving user info on BD
     let currentUserId = null;
     const createNewUser = async function(id) {
       const uFirstName= document.querySelector('#first_name').value;
@@ -27,8 +57,6 @@
       const uUsername= document.querySelector('#username').value;
       const uEmail= document.querySelector('#email').value;
       const uPassword = document.querySelector('#pass').value;
-
-      console.log(uFirstName + " " + uLastName + " " + uUsername + " " + uEmail + " " + uPassword);
       
       const response = await fetch('/log', {
         method: 'POST',
