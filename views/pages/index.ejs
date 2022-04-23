@@ -25,6 +25,11 @@
   <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()">
   <br>
   <span>Result:</span>
+  
+  <div id="displayCardImage">
+    <img id="cardImageResult">
+  </div>
+  
   <div id="displayCardSelected">
   </div>
   <script>
@@ -44,7 +49,14 @@
       })
       
       const result = await response.json();
-      document.getElementById('displayCardSelected').innerText = result.cardSelected;
+
+      if (result.cardText === undefined) {
+        document.getElementById('displayCardSelected').innerText = result.cardSelected;
+      } else {
+        document.getElementById('cardImageResult').setAttribute('src', result.cardImage);
+        document.getElementById('displayCardSelected').innerText = result.cardText;
+      }
+
 
       console.log(result);
     };

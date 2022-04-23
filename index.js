@@ -54,7 +54,8 @@ express()
 
         } else {
           const locals = {
-            'cardSelected': (cards) ? cards[0].text : null
+            'cardText': (cards) ? cards[0].text : null,
+            'cardImage': (cards) ? cards[0].imageUrl : null
           };
 
           res.send(locals);
