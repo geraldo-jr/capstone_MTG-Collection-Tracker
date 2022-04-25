@@ -19,16 +19,8 @@ express()
   .set('view engine', 'ejs')
   .get('/', async(req, res) => {
     try {
-      const client = await pool.connect();
-
-      // Using API via SDK
-      mtg.card.all({ name: 'Echo Mage'})
-      .on('data', card => {
-          console.log(card.name);
-          console.log(card.text);
-          console.log(card.artist);
-          console.log(card.imageUrl);
-      });
+      
+      res.render('pages/index');
 
       // Using API directly through get requests and fetch. Still need to figure out how to use fetch here
       // var requestOptions = {
@@ -41,14 +33,39 @@ express()
       //   .then(result => console.log(result.name))
       //   .catch(error => console.log('error', error));
 
-      res.render('pages/index');
 
-      client.release();
     } catch (err) {
 
       console.error(err);
       res.send("Error: " + err);
       
+    }
+  })
+  .post('/fetchCard' , async(req, res) => {
+    try {
+
+      const cardNameInserted = req.body.card_name;
+
+      mtg.card.where({ name: cardNameInserted})
+      .then(cards => {
+        if(cards[0] === undefined) {
+          let cardNameNotFound = {'cardSelected': '"' + cardNameInserted + '"' + " is not a valid card name"};
+          res.send(cardNameNotFound);
+
+        } else {
+          const locals = {
+            'cardText': (cards) ? cards[0].text : null,
+            'cardImage': (cards) ? cards[0].imageUrl : null
+          };
+
+          res.send(locals);
+        } 
+        
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
     }
   })
   .get('/db-info', async(red, res) => {
@@ -82,7 +99,7 @@ express()
       res.send("Error: " + err);
     }
   })
-  .post('/log', async(req, res) => {
+  .post('/signup_user', async(req, res) => {
     try {
       const client = await pool.connect();
       const userPassword = req.body.password;
@@ -96,7 +113,7 @@ express()
         VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
         RETURNING user_id as new_id;`);
 
-      // console.log(`Tracking task ${userId}`);
+      // console.log(`Tracking task ${sqlInsert}`);
 
       const result = {
         'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
@@ -105,10 +122,34 @@ express()
         'Content-Type': 'applicatio/json'
       });
       res.json({ requestBody: result });
+
       client.release();
     } catch (err) {
       console.error(err);
       res.send("Error: " + err);
     }
+  })
+  .post('/login_user', async(req, res) => {
+    // try {
+    //   const client = await pool.connect();
+
+    //   const informedEmail = req.body.user_email;
+    //   const informedPassword = req.body.user_password;
+
+    //   const queryUserCredentials = await client.query(
+    //     `SELECT user_id, username, email, password FROM users WHERE email = '${informedEmail}';`
+    //   );
+      
+    //   if (informedEmail === queryUserCredentials.rows[0].email && informedPassword === queryUserCredentials.rows[0].password) {
+    //     res.send(`User ${queryUserCredentials.rows[0].username} (id ${queryUserCredentials.rows[0].user_id}) has successfully logged in.`);
+    //   } else {
+    //     res.send('User not found or an incorrect email or password was provided.');
+    //   }
+
+    //   client.release();
+    // } catch (err) {
+    //   console.error(err);
+    //   res.send("Error: " + err);
+    // }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
