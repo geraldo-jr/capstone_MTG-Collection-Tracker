@@ -23,6 +23,9 @@ express()
     try {
       
       res.render('pages/index');
+      res.render('pages/collection');
+      res.render('pages/decks');
+      res.render('pages/contact');
 
       // Using API directly through get requests and fetch. Still need to figure out how to use fetch here
       // var requestOptions = {
