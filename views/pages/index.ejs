@@ -147,7 +147,6 @@
 
     // Close floating boxes
     let closeBtn = [...document.querySelectorAll(".close")];
-
     closeBtn.forEach(function (btn) {
       btn.onclick = function() {
         let floaringBox = btn.closest(".signup-box");
@@ -190,6 +189,7 @@
       console.log(result);
     };
 
+    // Login user handling code 
     const loginUser = async function(id) {
       const uEmailLogin = document.getElementById("login-email").value;
       const uPasswordLogin = document.getElementById("login-password").value;
