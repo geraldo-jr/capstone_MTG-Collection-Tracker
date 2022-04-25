@@ -109,7 +109,7 @@
           <div>
             <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
             <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
-            <button type="submit" onclick="javascript:loginUser()">Create New User Account</button>
+            <button type="submit" onclick="javascript:loginUser()">Login</button>
           </div>
         </div>
       </div>
@@ -190,7 +190,34 @@
       console.log(result);
     };
 
-    // Saving user info on BD
+    const loginUser = async function(id) {
+      const uEmailLogin = document.getElementById("login-email").value;
+      const uPasswordLogin = document.getElementById("login-password").value;
+      
+      console.log(uEmailLogin);
+
+      if (uEmailLogin === "" || uPasswordLogin === "") {
+        alert("Please, insert a valid username, email and password to sign in.");
+      } else {
+        const response = await fetch('/login_user', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_email: uEmailLogin,
+            user_password: uPasswordLogin
+          })
+        });
+
+        const result = await response.text();
+        console.log(result);
+
+      }
+    }
+
+    // Saving user info on BD and create new account
     let currentUserId = null;
     const createNewUser = async function(id) {
       const uFirstName= document.querySelector('#first_name').value;
@@ -199,24 +226,31 @@
       const uEmail= document.querySelector('#email').value;
       const uPassword = document.querySelector('#pass').value;
       
-      const response = await fetch('/log', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          password: uPassword,
-          username: uUsername,
-          email: uEmail,
-          first_name: uFirstName,
-          last_name: uLastName
-        })
-      });
-      const result = await response.json();
-      console.log(result);
+      if (uUsername === "" || uEmail === "" || uPassword === "") {
+          alert("Please, insert a valid username, email and password to create your new account");
+      } else {        
+        const response = await fetch('/signup_user', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            password: uPassword,
+            username: uUsername,
+            email: uEmail,
+            first_name: uFirstName,
+            last_name: uLastName
+          })
+        });
+        const result = await response.json();
+        console.log(result);
 
-      currentUserId = id;
+        currentUserId = id;
+
+        document.getElementById("signup").style.display = "none";
+        alert("New user succesfully created.")
+      }
     };
   </script>
 </body>

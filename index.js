@@ -99,7 +99,7 @@ express()
       res.send("Error: " + err);
     }
   })
-  .post('/log', async(req, res) => {
+  .post('/signup_user', async(req, res) => {
     try {
       const client = await pool.connect();
       const userPassword = req.body.password;
@@ -113,7 +113,7 @@ express()
         VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
         RETURNING user_id as new_id;`);
 
-      // console.log(`Tracking task ${userId}`);
+      // console.log(`Tracking task ${sqlInsert}`);
 
       const result = {
         'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
@@ -122,10 +122,34 @@ express()
         'Content-Type': 'applicatio/json'
       });
       res.json({ requestBody: result });
+
       client.release();
     } catch (err) {
       console.error(err);
       res.send("Error: " + err);
     }
+  })
+  .post('/login_user', async(req, res) => {
+    // try {
+    //   const client = await pool.connect();
+
+    //   const informedEmail = req.body.user_email;
+    //   const informedPassword = req.body.user_password;
+
+    //   const queryUserCredentials = await client.query(
+    //     `SELECT user_id, username, email, password FROM users WHERE email = '${informedEmail}';`
+    //   );
+      
+    //   if (informedEmail === queryUserCredentials.rows[0].email && informedPassword === queryUserCredentials.rows[0].password) {
+    //     res.send(`User ${queryUserCredentials.rows[0].username} (id ${queryUserCredentials.rows[0].user_id}) has successfully logged in.`);
+    //   } else {
+    //     res.send('User not found or an incorrect email or password was provided.');
+    //   }
+
+    //   client.release();
+    // } catch (err) {
+    //   console.error(err);
+    //   res.send("Error: " + err);
+    // }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
