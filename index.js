@@ -4,6 +4,8 @@ const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 const mtg = require('mtgsdk');
 
+
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -156,4 +158,4 @@ express()
   
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-  app.use(express.static('public'));
+  
