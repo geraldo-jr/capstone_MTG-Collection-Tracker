@@ -1,24 +1,11 @@
-<<<<<<< HEAD
-nav {
-    border-bottom: 1px solid black;
-    float: left;
-}
-
-=======
 /* Style the top nav menu bar */
 nav {
     border-bottom: 1px solid black;
 }
->>>>>>> e76c0f7d470fb7a7f02c00824c2db7a95cdb06da
 .navLink {
     display: inline-block;
     border: 1px solid black;
     background-color: rgb(160, 160, 160);
-<<<<<<< HEAD
-    padding: 0 30px;
-    
-}
-=======
     padding: 0 30px;   
 }
 /* Singup form style design */
@@ -92,4 +79,3 @@ nav {
     text-decoration: none;
     cursor: pointer;
   }
->>>>>>> e76c0f7d470fb7a7f02c00824c2db7a95cdb06da
