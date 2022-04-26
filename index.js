@@ -46,6 +46,13 @@ express()
   .get('/decks', async(req, res) => {
     res.render('pages/decks');
   })
+  .get('/help', async(req, res) => {
+    res.render('pages/help');
+  })
+  .get('/about', async(req, res) => {
+    res.render('pages/about');
+  })
+  
   .post('/fetchCard', async(req, res) => {
     try {
 
