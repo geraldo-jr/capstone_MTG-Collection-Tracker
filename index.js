@@ -135,30 +135,36 @@ express()
     }
   })
   .post('/login_user', async(req, res) => {
-    // try {
-    //   const client = await pool.connect();
+    try {
+      const client = await pool.connect();
 
-    //   const informedEmail = req.body.user_email;
-    //   const informedPassword = req.body.user_password;
+      const informedEmail = req.body.user_email;
+      const informedPassword = req.body.user_password;
 
-    //   const queryUserCredentials = await client.query(
-    //     `SELECT user_id, username, email, password FROM users WHERE email = '${informedEmail}';`
-    //   );
+      const queryUserCredentials = await client.query(
+        `SELECT user_id, username, email, password FROM users WHERE email = '${informedEmail}';`
+      );
       
-    //   if (informedEmail === queryUserCredentials.rows[0].email && informedPassword === queryUserCredentials.rows[0].password) {
-    //     res.send(`User ${queryUserCredentials.rows[0].username} (id ${queryUserCredentials.rows[0].user_id}) has successfully logged in.`);
-    //   } else {
-    //     res.send('User not found or an incorrect email or password was provided.');
-    //   }
+      if (queryUserCredentials.rowCount > 0 && informedPassword === queryUserCredentials.rows[0].password) {
+        var result = {
+          'success': true,
+          'username': queryUserCredentials.rows[0].username
+        };
 
-    //   client.release();
-    // } catch (err) {
-    //   console.error(err);
-    //   res.send("Error: " + err);
-    // }
+      } else {
+        var result = {
+          'success': false
+        };
+      }
+      
+      res.send(result);
+
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
   })
-
-  
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   

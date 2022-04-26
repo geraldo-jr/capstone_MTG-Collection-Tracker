@@ -142,7 +142,6 @@
   <script>
     // Enable or close signup and login floating boxes
     let boxAnchor = [...document.querySelectorAll(".openBox")];
-
     boxAnchor.forEach(function (btn) {
       btn.onclick = function () {
         let box = btn.getAttribute("origin");
@@ -204,8 +203,6 @@
       const uEmailLogin = document.getElementById("login-email").value;
       const uPasswordLogin = document.getElementById("login-password").value;
       
-      console.log(uEmailLogin);
-
       if (uEmailLogin === "" || uPasswordLogin === "") {
         alert("Please, insert a valid username, email and password to sign in.");
       } else {
@@ -221,9 +218,14 @@
           })
         });
 
-        const result = await response.text();
-        console.log(result);
-
+        // Fetching for users records. If correct returns true for success and username, if incorrect returns false for success.
+        const result = await response.json();
+        if (result.success === true) {
+          alert("User " + result.username + " successfuly logged in.");
+          document.getElementById("login").style.display = "none";
+        } else {
+          alert("User not found or the provided email or password was incorrect. Please, try again.");
+        }
       }
     }
 
