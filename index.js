@@ -4,8 +4,6 @@ const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 const mtg = require('mtgsdk');
 
-
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -52,7 +50,6 @@ express()
   .get('/about', async(req, res) => {
     res.render('pages/about');
   })
-  
   .post('/fetchCard', async(req, res) => {
     try {
 
@@ -131,7 +128,7 @@ express()
         'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
       };
       res.set({
-        'Content-Type': 'applicatio/json'
+        'Content-Type': 'application/json'
       });
       res.json({ requestBody: result });
 
