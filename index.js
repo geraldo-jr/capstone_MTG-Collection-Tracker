@@ -43,7 +43,10 @@ express()
       
     }
   })
-  .post('/fetchCard' , async(req, res) => {
+  .get('/decks', async(req, res) => {
+    res.render('pages/decks');
+  })
+  .post('/fetchCard', async(req, res) => {
     try {
 
       const cardNameInserted = req.body.card_name;
