@@ -155,7 +155,8 @@ express()
       if (queryUserCredentials.rowCount > 0 && informedPassword === queryUserCredentials.rows[0].password) {
         var result = {
           'success': true,
-          'username': queryUserCredentials.rows[0].username
+          'username': queryUserCredentials.rows[0].username,
+          'user_id': queryUserCredentials.rows[0].user_id
         };
 
       } else {
