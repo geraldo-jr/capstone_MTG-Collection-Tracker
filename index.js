@@ -3,6 +3,8 @@ const path = require('path');
 const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 const mtg = require('mtgsdk');
+const { render } = require('express/lib/response');
+let userState = {};
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -21,24 +23,25 @@ express()
     try {
       
       res.render('pages/index');
-
-      // Using API directly through get requests and fetch. Still need to figure out how to use fetch here
-      // var requestOptions = {
-      //   method: 'GET',
-      //   redirect: 'follow'
-      // };
       
-      // fetch("http://api.magicthegathering.io/v1/cards?name=Echo Mage", requestOptions)
-      //   .then(response => response.text())
-      //   .then(result => console.log(result.name))
-      //   .catch(error => console.log('error', error));
-
-
     } catch (err) {
 
       console.error(err);
       res.send("Error: " + err);
       
+    }
+  })
+  .post('/userLoginStatus', async(req,res) => {
+    try {
+      if (userState === undefined || userState.success !== true) {
+        userState = {'success': false};
+        res.json(userState);
+      } else {
+        res.json(userState);
+      }
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
     }
   })
   .get('/decks', async(req, res) => {
@@ -123,13 +126,22 @@ express()
       const sqlInsert = await client.query(
         `INSERT INTO users (password, username, email, first_name, last_name)
         VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
-        RETURNING user_id as new_id;`);
+        RETURNING user_id, username;`);
 
       // console.log(`Tracking task ${sqlInsert}`);
 
       const result = {
         'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
       };
+
+      userState = {
+        'success': true,
+        'username': sqlInsert.rows[0].username,
+        'user_id': sqlInsert.rows[0].user_id
+      };
+      
+      console.log(userState);
+
       res.set({
         'Content-Type': 'application/json'
       });
@@ -159,6 +171,8 @@ express()
           'user_id': queryUserCredentials.rows[0].user_id
         };
 
+        userState = result;
+
       } else {
         var result = {
           'success': false
@@ -173,6 +187,14 @@ express()
       res.send("Error: " + err);
     }
   })
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  .post('/logout_user', async(req, res) =>{
+    
+    // console.log(`User ${userState.username}logged out`);
 
-  
+    userState = {'success': false};
+
+    // console.log(userState);
+
+    res.send('200');
+  })
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
