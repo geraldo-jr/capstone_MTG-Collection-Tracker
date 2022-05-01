@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <title>MTG Collection Tracker App</title>
-  
+  <script src="/JS/loginLogoutUser.js"></script>
 </head>
 <body>
   <nav>
@@ -18,46 +18,50 @@
     </ul>
   </nav>
 
+  <div class="loginPanel">
+    <h3 id="loginPanelInfo" >Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account.</a></h3>
+    <div id="signup" class="signup-box">
+      <div class="box-content">
+        <div class="signup-form">
+          <a class="close">&times;</a>
+          <div class="openedSignupBox">
+            <h3>Create New Account</h3>
+            <div>
+              <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
+              <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
+              <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required><br>
+              <label for="email">Email*: </label><input type="email" id="email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
+              <label for="pass">Password* (8 characters minimum): </label> <input type="password" id="pass" name="password" minlength="8" required><br>
+              <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="login" class="signup-box">
+      <div class="box-content">
+        <div class="signup-form">
+          <a class="close">&times;</a>
+          <div class="openedSignupBox">
+            <h3>Create New Account</h3>
+            <div>
+              <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
+              <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
+              <button type="submit" onclick="javascript:loginUser()">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <h1>Welcome to MTG Collection Tracker</h1>
-  <h3>Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account</a></h3>
-  <div id="signup" class="signup-box">
-    <div class="box-content">
-      <div class="signup-form">
-        <a class="close">&times;</a>
-        <div class="openedSignupBox">
-          <h3>Create New Account</h3>
-          <div>
-            <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
-            <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
-            <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required><br>
-            <label for="email">Email*: </label><input type="email" id="email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-            <label for="pass">Password* (8 characters minimum): </label> <input type="password" id="pass" name="password" minlength="8" required><br>
-            <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="login" class="signup-box">
-    <div class="box-content">
-      <div class="signup-form">
-        <a class="close">&times;</a>
-        <div class="openedSignupBox">
-          <h3>Create New Account</h3>
-          <div>
-            <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-            <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
-            <button type="submit" onclick="javascript:loginUser()">Login</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <a href="db-info">Check DB insert and info</a>
   <br>
   <br>
   <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
-  <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()">
+  <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
   <br>
   <span>Result:</span>
   
@@ -92,38 +96,8 @@
     <input type="checkbox" id="none_type" name="none_type" placeholder="None type of mana">
     <label for="red_type">None Mana Type: </label> <br>
   </form>
-
+  <script src="/JS/loginPanels.js"></script>
   <script>
-    // Enable or close signup and login floating boxes
-    let boxAnchor = [...document.querySelectorAll(".openBox")];
-    boxAnchor.forEach(function (btn) {
-      btn.onclick = function () {
-        let box = btn.getAttribute("origin");
-
-        if (box === "login") {
-          document.getElementById("login").style.display = "block";
-        } else if (box === "signup") {
-          document.getElementById("signup").style.display = "block";
-        }
-      }
-    });
-
-    // Close floating boxes
-    let closeBtn = [...document.querySelectorAll(".close")];
-    closeBtn.forEach(function (btn) {
-      btn.onclick = function() {
-        let floaringBox = btn.closest(".signup-box");
-        floaringBox.style.display = "none";
-      }
-    });
-
-    // Closes modal when clicked outside the box
-    window.onclick = function (event) {
-      if (event.target.className === "signup-box") {
-        event.target.style.display = "none";
-      }
-    };
-
     // Fetching card from API
     const getCardInfo = async function() {
       const cardName = document.getElementById('cardSelectionInput').value;
@@ -137,7 +111,7 @@
         body: JSON.stringify({
           card_name: cardName
         })
-      })
+      });
       
       const result = await response.json();
 
@@ -151,6 +125,7 @@
 
       console.log(result);
     };
+<<<<<<< HEAD
 
     // Adding a card to the selected deck
     const addCardToDeck = async function() {
@@ -254,6 +229,8 @@
         alert("New user succesfully created.")
       }
     };
+=======
+>>>>>>> 63a8f0501d0e109a5539ea9d9243c2444e9e6366
   </script>
 </body>
 </html>
