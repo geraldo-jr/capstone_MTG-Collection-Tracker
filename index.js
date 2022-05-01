@@ -77,6 +77,33 @@ express()
       res.send("Error: " + err);
     }
   })
+  .post('/addToDeck', async(req,res) => {
+    try {
+      const client = await pool.connect();
+      const selDeck = req.body.deck_id;
+      const selCard = req.body.card_id;
+
+      const sqlInsert = await client.query(
+        `INSERT INTO deck_card (deck_id, card_id) VALUES ('${selDeck}', '${selCard}')`
+      );
+
+      const result = {
+        'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
+      };
+      res.set({
+        'Content-Type': 'application/json'
+      });
+      res.json({ requestBody: result });
+
+      client.release();
+    }
+    catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+
+    
+  })
   .get('/db-info', async(red, res) => {
     try {
       const client = await pool.connect();

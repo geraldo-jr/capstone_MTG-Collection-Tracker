@@ -1,6 +1,7 @@
 /* Style the top nav menu bar */
 nav {
     border-bottom: 1px solid black;
+
 }
 .navLink {
     display: inline-block;
