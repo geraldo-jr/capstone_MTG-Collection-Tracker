@@ -1,6 +1,21 @@
-/* Style the top nav menu bar */
-nav {
+/* Header Style containing app name, top menu nav bar and login panel */
+header {
     border-bottom: 1px solid black;
+    width: 100%;
+}
+.logo-mtg-name {
+  width: 20%;
+  display: inline-flex;
+}
+.nav {
+  width: 50%;
+  display: inline-flex;
+
+}
+.login-panel {
+  width: 10%;
+  display: inline-flex;
+  
 }
 .navLink {
     display: inline-block;
