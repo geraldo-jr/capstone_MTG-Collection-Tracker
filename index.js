@@ -105,8 +105,26 @@ express()
       res.send("Error: " + err);
     }
 
-    
-  .post('/save_card', async(req, res) =>{
+  })
+  .post('/createDeck', async(req, res) => {
+    try {
+      const client = await pool.connect();
+      const deckName = req.body.deckName;
+      const deckDesc = req.body.deckDesc;
+      const deckFormat = req.body.deckFormat;
+      const deckId = req.body.deckId;
+
+      const sqlInsert = await client.query(
+        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}')`
+      )
+
+    }
+    catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+  })
+  .post('/save_card', async(req, res) => {
 
   })
   .get('/db-info', async(red, res) => {

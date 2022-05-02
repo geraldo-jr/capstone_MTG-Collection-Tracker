@@ -54,13 +54,38 @@
       </div>
     </div>
   </div>
-  <h1>Decks</h1>
-<<<<<<< HEAD
+  <h4>Create a new Deck:</h4>
+  <label for="newDeckName">Deck Name:</label>
+  <input type="text" id="newDeckName">
+  <label for="deckDesc">Description:</label>
+  <input type="text" id="deckDesc">
+  <label for="deckFormat">Format:</label>
+  <input type="text" id="deckFormat">
+  <label for="deckId">Deck ID</label>
+  <input type="text" id="deckId">
+  <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
 
-  
-    
-=======
+  <script>
+    // Create a new deck and add it to the database
+    const createDeck = async function() {
+      const newDeckName = getElementById('newDeckName').value;
+
+      const response = await post('/createDeck', {
+        method: 'POST', 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          deck_name: newDeckName
+        })
+      });
+      
+      const result = await response.json();
+    }
+  </script>
+  <h1>Decks</h1>
+
   <script src="/JS/loginPanels.js"></script>
->>>>>>> 63a8f0501d0e109a5539ea9d9243c2444e9e6366
 </body>
 </html>
