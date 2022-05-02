@@ -128,14 +128,15 @@ header {
   
 }
 .cards_box .cards_row div {
+  background-color: white;
   display: table-cell;
   border: 1px solid black;
   border-spacing: 10px;
   height: 25px;
   width: 15px;
   padding: 10px;
-  
 }
+
 
 @media only screen and (max-width: 400px) {
   header {
