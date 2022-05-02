@@ -6,54 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/styles.css">
   <script src="/JS/loginLogoutUser.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
   <title>Decks</title>
 </head>
 <body>
-  <nav>
-    <ul>
-      <li class="navLink"><a href="/">Collection</a></li>
-      <li class="navLink"><a href="decks">Decks</a></li>
-      <li class="navLink"><a href="about">About</a></li>
-      <li class="navLink"><a href="help">Help</a></li>
-    </ul>
-  </nav>
+  <header >
+    <h2 class="logo-mtg-name">MTG Collection Tracker</h2>
 
-  <div class="loginPanel">
-    <h3 id="loginPanelInfo" >Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account.</a></h3>
-    <div id="signup" class="signup-box">
-      <div class="box-content">
-        <div class="signup-form">
-          <a class="close">&times;</a>
-          <div class="openedSignupBox">
-            <h3>Create New Account</h3>
-            <div>
-              <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
-              <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
-              <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required><br>
-              <label for="email">Email*: </label><input type="email" id="email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-              <label for="pass">Password* (8 characters minimum): </label> <input type="password" id="pass" name="password" minlength="8" required><br>
-              <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
+    <nav class="nav">
+      <ul>
+        <li class="nav-link"><a href="/">Collection</a></li>
+        <li class="nav-link"><a href="decks">Decks</a></li>
+        <li class="nav-link"><a href="about">About</a></li>
+        <li class="nav-link"><a href="help">Help</a></li>
+      </ul>
+    </nav>
+
+    <div class="login-panel">
+      <h4 id="loginPanelInfo" >Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account</a></h4>
+      <div id="signup" class="signup-box">
+        <div class="box-content">
+          <div class="signup-form">
+            <a class="close">&times;</a>
+            <div class="openedSignupBox">
+              <h3>Create New Account</h3>
+              <div>
+                <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
+                <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
+                <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required><br>
+                <label for="email">Email*: </label><input type="email" id="email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
+                <label for="pass">Password* (8 characters minimum): </label> <input type="password" id="pass" name="password" minlength="8" required><br>
+                <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="login" class="signup-box">
+        <div class="box-content">
+          <div class="signup-form">
+            <a class="close">&times;</a>
+            <div class="openedSignupBox">
+              <h3>Create New Account</h3>
+              <div>
+                <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
+                <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
+                <button type="submit" onclick="javascript:loginUser()">Login</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="login" class="signup-box">
-      <div class="box-content">
-        <div class="signup-form">
-          <a class="close">&times;</a>
-          <div class="openedSignupBox">
-            <h3>Create New Account</h3>
-            <div>
-              <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-              <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
-              <button type="submit" onclick="javascript:loginUser()">Login</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </header>
   <h1>Decks</h1>
   <script src="/JS/loginPanels.js"></script>
 </body>

@@ -81,7 +81,8 @@ express()
     }
   })
   .post('/save_card', async(req, res) =>{
-
+    // User the card fechted with /fetchCard and save here into the db
+    // Still need to figure out how to make user chose a card when has more then one of the same from different sets
   })
   .get('/db-info', async(red, res) => {
     try {

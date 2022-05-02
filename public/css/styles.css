@@ -1,114 +1,178 @@
+body {
+  background-color: #737373;
+}
 /* Header Style containing app name, top menu nav bar and login panel */
 header {
-    border-bottom: 1px solid black;
-    width: 100%;
+  border-bottom: 1px solid black;
+  width: 100%;
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  position: relative;
+  height: 5rem;
 }
 .logo-mtg-name {
   width: 20%;
   display: inline-flex;
 }
 .nav {
-  width: 50%;
+  margin: 0 auto;
+  width: 65%;
   display: inline-flex;
-
+}
+.nav > ul {
+  margin: auto;
+  font-size: larger;
+}
+.nav-link {
+  display: inline-block;
+  background-color: #D9D9D9;
+  padding: .3rem 2rem;   
+  margin: .15rem;
+}
+.nav-link a {
+  text-decoration: none;
+  font-weight: 600;
 }
 .login-panel {
-  width: 10%;
+  width: 12%;
   display: inline-flex;
-  
+  background-color: #D9D9D9;  
+  position: absolute;
+  right: 0%;  
+  margin: 0%;
+  padding: .3rem;
+  height: auto;
 }
-.navLink {
-    display: inline-block;
-    border: 1px solid black;
-    background-color: rgb(160, 160, 160);
-    padding: 0 30px;   
+.login-panel h4 {
+  margin: auto;
+  font-size: medium;
+  padding: .4rem;
 }
 /* Singup form style design */
 .signup-box {
-    display: none;
-    position: fixed;
-    z-index: 8;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  .box-content {
-    margin: 50px auto;
-    width: 60%;
-  }
-  .signup-box h3,
-  .signup-box p {
-    margin: 0 0 20px;
-    font-weight: bold;
-    color: #555;
-  }
-  .signup-form > a {
-    color: #555;
-    display: block;
-    padding: 0 0 5px;
-  }
-  .openedSignupBox {
-    padding: 25px;
-    margin: 25px;
-    box-shadow: 0 2px 5px #f5f5f5;
-    background-color: #eee;
-  }
-  .signup-box input,
-  .signup-box textarea {
-    width: 90%;
-    padding: 6px;
-    margin-bottom: 10px;
-    border: 1px solid #7a7878;
-    outline: none;
-  }
-  .signup-box label {
-    display: block;
-  }
-  .signup-form button {
-    width: 92%;
-    margin: 0 auto;
-    padding: 10px;
-    border: none;
-    background: #7a7878;
-    font-size: 16px;
-    font-weight: 400;
-    color: #fff;
-  }
-  .signup-box button:hover {
-    background: #555;
-    cursor: pointer;
-  }
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .cards_box{
-    display: table;
-    padding-top: 10px;
-  }
+  display: none;
+  position: fixed;
+  z-index: 8;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.box-content {
+  margin: 50px auto;
+  width: 60%;
+}
+.signup-box h3,
+.signup-box p {
+  margin: 0 0 20px;
+  font-weight: bold;
+  color: #555;
+}
+.signup-form > a {
+  color: #555;
+  display: block;
+  padding: 0 0 5px;
+}
+.openedSignupBox {
+  padding: 25px;
+  margin: 25px;
+  box-shadow: 0 2px 5px #f5f5f5;
+  background-color: #eee;
+}
+.signup-box input,
+.signup-box textarea {
+  width: 90%;
+  padding: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #7a7878;
+  outline: none;
+}
+.signup-box label {
+  display: block;
+}
+.signup-form button {
+  width: 92%;
+  margin: 0 auto;
+  padding: 10px;
+  border: none;
+  background: #7a7878;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+.signup-box button:hover {
+  background: #555;
+  cursor: pointer;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cards_box{
+  display: table;
+  padding-top: 10px;
+}
 
-  .cards_box .cards_row{
-    display: table-row;
-    
+.cards_box .cards_row{
+  display: table-row;
+  
+}
+.cards_box .cards_row div {
+  display: table-cell;
+  border: 1px solid black;
+  border-spacing: 10px;
+  height: 25px;
+  width: 15px;
+  padding: 10px;
+  
+}
+
+@media only screen and (max-width: 400px) {
+  header {
+    position: relative;
+    margin: 0%;
   }
-  .cards_box .cards_row div {
-    display: table-cell;
-    border: 1px solid black;
-    border-spacing: 10px;
-    height: 25px;
-    width: 15px;
-    padding: 10px;
-    
+  .logo-mtg-name {
+    font-size: medium;
+    padding: 0%;
+    margin-right: 2px;
   }
+  .nav {
+    width: 55%;
+  }
+  .nav ul {
+    font-size: small;
+    padding: 0;
+    margin: 0 auto;
+  }
+  .nav li {
+    width: 25%;
+    text-align: center;
+  }
+  .nav-link {
+    display: inline-block;
+    background-color: #D9D9D9;
+    padding: .1rem 1rem;   
+  }
+  .login-panel {
+    padding: 0 .1rem;
+    margin: 0 auto;
+    width: 20%;
+    font-size: .71em;
+    position: absolute;
+  }
+  .login-panel h4 {
+    margin: auto;
+    padding: .5rem;
+  }
+}
