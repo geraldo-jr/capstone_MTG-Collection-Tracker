@@ -75,21 +75,30 @@
   </div>
 
   <form>
-    <input type="checkbox" id="mana_cost" name="mana_cost" placeholder="Mana cost sort"> 
-    <label for="mana_cost">Mana Manag Cost: </label> <br>
-    <input type="checkbox" id="red_type" name="red_type" placeholder="Red type of mana">
-    <label for="red_type">Red Mana Type: </label> <br>
-    <input type="checkbox" id="black_type" name="black_type" placeholder="Black type of mana">
-    <label for="black_type">Black Mana Type: </label> <br>
-    <input type="checkbox" id="blue_type" name="blue_type" placeholder="Blue type of mana">
-    <label for="red_type">Blue Mana Type: </label> <br>
-    <input type="checkbox" id="white_type" name="white_type" placeholder="White type of mana">
-    <label for="red_type">White Mana Type: </label> <br>
-    <input type="checkbox" id="green_type" name="green_type" placeholder="Green type of mana">
-    <label for="red_type">Green Mana Type: </label> <br>
-    <input type="checkbox" id="none_type" name="none_type" placeholder="None type of mana">
-    <label for="red_type">None Mana Type: </label> <br>
+    <fieldset>
+      <legend><h3>Sort your cards</h3></legend>
+      <input type="checkbox" id="mana_cost" name="sort_cards" placeholder="Mana cost sort">Mana Cost<br>
+      <input type="checkbox" id="red_type" name="sort_cards" placeholder="Red type of mana">Red Mana Type<br>
+      <input type="checkbox" id="black_type" name="sort_cards" placeholder="Black type of mana">Black Mana Type<br>
+      <input type="checkbox" id="blue_type" name="sort_cards" placeholder="Blue type of mana">Blue Mana Type<br>
+      <input type="checkbox" id="white_type" name="sort_cards" placeholder="White type of mana">White Mana Type<br>
+      <input type="checkbox" id="green_type" name="sort_cards" placeholder="Green type of mana">Green Mana Type<br>
+      <input type="checkbox" id="none_type" name="sort_cards" placeholder="None type of mana">None Mana Type<br><br>
+      <input type="submit" value="Sort" onclick="javascript:sort_cards()">
+    </fieldset>
   </form>
+  
+  <div class="cards_box">
+    <div class="cards_row">
+      <div id="red_type" class="3">3 cost Red</div>
+      <div id="black_type" class="6">6 cost Black</div>
+      <div id="blue_type" class="2">2 cost Blue</div>
+      <div id="white_type" class="4">4 cost White</div>
+      <div id="green_type"  class="5">5 cost Green</div>
+      <div id="none_type" class="1">1 cost None</div>
+    </div>
+  </div>  
+
   <script src="/JS/loginPanels.js"></script>
   <script>
     // Fetching card from API
@@ -119,6 +128,10 @@
 
       console.log(result);
     };
+
+    function sort_cards () {
+
+    }
   </script>
 </body>
 </html>
