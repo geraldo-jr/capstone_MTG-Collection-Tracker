@@ -109,13 +109,18 @@ express()
   .post('/createDeck', async(req, res) => {
     try {
       const client = await pool.connect();
-      const deckName = req.body.deckName;
-      const deckDesc = req.body.deckDesc;
-      const deckFormat = req.body.deckFormat;
-      const deckId = req.body.deckId;
+      const deckName = req.body.deck_name;
+      const deckDesc = req.body.deck_desc;
+      const deckFormat = req.body.deck_format;
+      const deckId = req.body.deck_id;
+      const userId = req.body.user_id;
+
+      const queryCurrentUserId = await client.query(
+        `SELECT user_id FROM users WHERE user_id = '${userId}';`
+      );
 
       const sqlInsert = await client.query(
-        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}')`
+        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${queryCurrentUserId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
 
     }
@@ -144,10 +149,15 @@ express()
       const users = await client.query(
         `SELECT user_id, last_name, username FROM users;`
       );
+
+      const decks = await client.query(
+        `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
+      );
       
       const locals = {
         'tables': (tables) ? tables.rows : null,
-        'users': (users) ? users.rows : null
+        'users': (users) ? users.rows : null,
+        'decks': (decks) ? decks.rows : null
       };
 
       res.render('pages/db-info', locals);

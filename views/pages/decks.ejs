@@ -55,29 +55,39 @@
     </div>
   </div>
   <h4>Create a new Deck:</h4>
-  <label for="newDeckName">Deck Name:</label>
-  <input type="text" id="newDeckName">
-  <label for="deckDesc">Description:</label>
-  <input type="text" id="deckDesc">
-  <label for="deckFormat">Format:</label>
-  <input type="text" id="deckFormat">
-  <label for="deckId">Deck ID</label>
-  <input type="text" id="deckId">
-  <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
+  <div>
+    <label for="newDeckName">Deck Name:</label>
+    <input type="text" id="newDeckName" name="newDeckName"><br>
+    <label for="deckDesc">Description:</label>
+    <input type="text" id="deckDesc" name="deckDesc"><br>
+    <label for="deckFormat">Format:</label>
+    <input type="text" id="deckFormat" name="deckFormat"><br>
+    <label for="deckId">Deck ID:</label>
+    <input type="text" id="deckId" name="deckId"><br>
+    <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
+  </div>
 
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
-      const newDeckName = getElementById('newDeckName').value;
+      const newDeckName = document.getElementById('newDeckName').value;
+      const deckDesc = document.getElementById('deckDesc').value;
+      const deckFormat = document.getElementById('deckFormat').value;
+      const deckId = document.getElementById('deckId').value;
+      const userId = currentUserId;
 
-      const response = await post('/createDeck', {
+      const response = await fetch('/createDeck', {
         method: 'POST', 
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          deck_name: newDeckName
+          deck_name: newDeckName,
+          deck_desc: deckDesc,
+          deck_format: deckFormat,
+          deck_id: deckId,
+          user_id: userId
         })
       });
       
