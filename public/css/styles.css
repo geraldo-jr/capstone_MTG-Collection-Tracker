@@ -79,3 +79,21 @@ nav {
     text-decoration: none;
     cursor: pointer;
   }
+  .cards_box{
+    display: table;
+    padding-top: 10px;
+  }
+
+  .cards_box .cards_row{
+    display: table-row;
+    
+  }
+  .cards_box .cards_row div {
+    display: table-cell;
+    border: 1px solid black;
+    border-spacing: 10px;
+    height: 25px;
+    width: 15px;
+    padding: 10px;
+    
+  }
