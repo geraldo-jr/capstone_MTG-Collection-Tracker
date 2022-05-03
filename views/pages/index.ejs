@@ -65,17 +65,34 @@
   <a href="db-info">Check DB insert and info</a>
   <br>
   <br>
-  <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
-  <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
-  <br>
-  <span>Result:</span>
-  
-  <div id="displayCardImage">
-    <img id="cardImageResult">
-  </div>
-  
-  <div id="displayCardSelected">
-  </div>
+
+  <fieldset class="add-card">
+    <legend><p>Add card:</p></legend>
+    <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
+    <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
+    <br>
+    <span>Result:</span>
+    
+    <div id="display-card-image">
+      <img id="card-image-result">
+    </div>
+    
+    <div id="display-card-selected">
+    </div>
+  </fieldset>
+
+  <fieldset class="filter-cards">
+    <legend><p>Filters:</p></legend>
+    <input type="text" placeholder="Card Text" id="card-text">
+    <input type="text" placeholder="Set" id="card-set">
+    <input type="text" placeholder="Type" id="card-type">
+    <input type="text" placeholder="CMC" id="card-cmc">
+    <input type="text" placeholder="Color" id="card-color">
+    <input type="text" placeholder="Subtype" id="card-subtype">
+    <input type="text" placeholder="Rarity" id="card-rarity">
+    <br>
+    <input type="submit" value="Filter Table">
+  </fieldset>
 
   <form id="sort">
     <fieldset>
@@ -123,10 +140,10 @@
 
       // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
       if (result.cardText === undefined) {
-        document.getElementById('displayCardSelected').innerText = result.cardSelected;
+        document.getElementById('display-card-selected').innerText = result.cardSelected;
       } else {
-        document.getElementById('cardImageResult').setAttribute('src', result.cardImage);
-        document.getElementById('displayCardSelected').innerText = result.cardText;
+        document.getElementById('card-image-result').setAttribute('src', result.cardImage);
+        document.getElementById('display-card-selected').innerText = result.cardText;
       }
 
       console.log(result);
