@@ -123,23 +123,73 @@ header {
   text-decoration: none;
   cursor: pointer;
 }
+/* Filter and add cards elements */
+.add-card, .filter-cards {
+  background-color: #D9D9D9;
+  width: 46%;
+  height: 7rem;
+  padding: .51rem;
+  border: none;
+  position: relative;
+}
+.filter-cards {
+  float: left;
+}
+.add-card legend, .filter-cards legend {
+  font-weight: bold;
+  position: absolute;
+  top: -18px;
+}
+.filter-cards > input {
+  margin: .1rem;
+}
+.filter-cards > legend, 
+.add-card > legend,
+.filter-cards p, 
+.add-card p {
+  margin: 0px;
+  padding: 0px;
+}
+.add-card {
+  float: right;
+}
+/* Filter Styles */
 .cards_box{
   display: table;
   padding-top: 10px;
 }
-
-.cards_box .cards_row{
+.cards_box, .cards_row{
   display: table-row;
-  
+  clear: both;
 }
 .cards_box .cards_row div {
+  background-color: white;
   display: table-cell;
   border: 1px solid black;
   border-spacing: 10px;
   height: 25px;
   width: 15px;
   padding: 10px;
-  
+}
+
+@media only screen and (max-width: 700px) {
+  html {
+    padding: .3rem;
+  }
+  header {
+    height: 7rem;
+  }
+  .nav li {
+    width: 25%;
+    text-align: center;
+  }
+  .login-panel h4 {
+    margin: auto;
+    padding: .1rem;
+  }
+  .login-panel {
+    margin: 1em auto 0;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -179,5 +229,11 @@ header {
   .login-panel h4 {
     margin: auto;
     padding: .5rem;
+  }
+  .add-card, .filter-cards {
+    width: 97%;
+    display: block;
+    height: 6rem;
+    padding: .31rem;
   }
 }

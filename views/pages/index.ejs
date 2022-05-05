@@ -65,17 +65,6 @@
   <a href="db-info">Check DB insert and info</a>
   <br>
   <br>
-  <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
-  <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
-  <br>
-  <span>Result:</span>
-  
-  <div id="displayCardImage">
-    <img id="cardImageResult">
-  </div>
-  
-  <div id="displayCardSelected">
-  </div>
 
   <div id="addCardDeck">
     <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
@@ -86,27 +75,56 @@
   
 
   <form>
+  <fieldset class="add-card">
+    <legend><p>Add card:</p></legend>
+    <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
+    <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
+    <br>
+    <span>Result:</span>
+    
+    <div id="display-card-image">
+      <img id="card-image-result">
+    </div>
+    
+    <div id="display-card-selected">
+    </div>
+  </fieldset>
+
+  <fieldset class="filter-cards">
+    <legend><p>Filters:</p></legend>
+    <input type="text" placeholder="Card Text" id="card-text">
+    <input type="text" placeholder="Set" id="card-set">
+    <input type="text" placeholder="Type" id="card-type">
+    <input type="text" placeholder="CMC" id="card-cmc">
+    <input type="text" placeholder="Color" id="card-color">
+    <input type="text" placeholder="Subtype" id="card-subtype">
+    <input type="text" placeholder="Rarity" id="card-rarity">
+    <br>
+    <input type="submit" value="Filter Table">
+  </fieldset>
+
+  <form id="sort">
     <fieldset>
       <legend><h3>Sort your cards</h3></legend>
-      <input type="checkbox" id="mana_cost" name="sort_cards" placeholder="Mana cost sort">Mana Cost<br>
-      <input type="checkbox" id="red_type" name="sort_cards" placeholder="Red type of mana">Red Mana Type<br>
-      <input type="checkbox" id="black_type" name="sort_cards" placeholder="Black type of mana">Black Mana Type<br>
-      <input type="checkbox" id="blue_type" name="sort_cards" placeholder="Blue type of mana">Blue Mana Type<br>
-      <input type="checkbox" id="white_type" name="sort_cards" placeholder="White type of mana">White Mana Type<br>
-      <input type="checkbox" id="green_type" name="sort_cards" placeholder="Green type of mana">Green Mana Type<br>
-      <input type="checkbox" id="none_type" name="sort_cards" placeholder="None type of mana">None Mana Type<br><br>
-      <input type="submit" value="Sort" onclick="javascript:sort_cards()">
+      <input type="checkbox" id="mana_cost" name="card_type" placeholder="Mana cost sort" value="true">Mana Cost<br>
+      <input type="checkbox" id="red_type" name="card_type" placeholder="Red type of mana">Red Mana Type<br>
+      <input type="checkbox" id="black_type" name="card_type" placeholder="Black type of mana">Black Mana Type<br>
+      <input type="checkbox" id="blue_type" name="card_type" placeholder="Blue type of mana">Blue Mana Type<br>
+      <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
+      <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type<br>
+      <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br><br>
+      <input type="submit" value="Sort">
     </fieldset>
   </form>
   
   <div class="cards_box">
     <div class="cards_row">
-      <div id="red_type" class="3">3 cost Red</div>
-      <div id="black_type" class="6">6 cost Black</div>
-      <div id="blue_type" class="2">2 cost Blue</div>
-      <div id="white_type" class="4">4 cost White</div>
-      <div id="green_type"  class="5">5 cost Green</div>
-      <div id="none_type" class="1">1 cost None</div>
+      <div id="red_card" class="card">3 cost Red</div>
+      <div id="black_card" class="card">6 cost Black</div>
+      <div id="blue_card" class="card">2 cost Blue</div>
+      <div id="white_card" class="card">4 cost White</div>
+      <div id="green_card"  class="card">5 cost Green</div>
+      <div id="none_card" class="card">1 cost None</div>
     </div>
   </div>  
 
@@ -131,10 +149,10 @@
 
       // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
       if (result.cardText === undefined) {
-        document.getElementById('displayCardSelected').innerText = result.cardSelected;
+        document.getElementById('display-card-selected').innerText = result.cardSelected;
       } else {
-        document.getElementById('cardImageResult').setAttribute('src', result.cardImage);
-        document.getElementById('displayCardSelected').innerText = result.cardText;
+        document.getElementById('card-image-result').setAttribute('src', result.cardImage);
+        document.getElementById('display-card-selected').innerText = result.cardText;
       }
 
       console.log(result);
@@ -243,8 +261,144 @@
       }
     };
     function sort_cards () {
+    // get access to the form subbmitted.
+    const form = document.getElementById('sort');
 
-    }
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      var mana_cost = form.elements[1];
+      var red_mana = form.elements[2];
+      var black_mana = form.elements[3];
+      var blue_mana = form.elements[4];
+      var white_mana = form.elements[5];
+      var green_mana = form.elements[6];
+      var none_mana = form.elements[7];
+
+      if (red_mana.checked){
+        if (document.getElementById('red_card').style.display="none"){
+          document.getElementById('red_card').style.display="table-cell";
+        } 
+        if (black_mana.checked) {
+          document.getElementById('black_card').style.display="table-cell";
+        } else {
+          document.getElementById('black_card').style.display="none";
+        }
+        if (blue_mana.checked) {
+          document.getElementById('blue_card').style.display="table-cell";
+        } else {
+          document.getElementById('blue_card').style.display="none";
+        }
+        if (white_mana.checked) {
+          document.getElementById('white_card').style.display="table-cell";
+        } else {
+          document.getElementById('white_card').style.display="none";
+        }
+        if (green_mana.checked) {
+          document.getElementById('green_card').style.display="table-cell";
+        } else {
+          document.getElementById('green_card').style.display="none";
+        } 
+        if (none_mana.checked) {
+          document.getElementById('none_card').style.display="table-cell";
+        } else {
+          document.getElementById('none_card').style.display="none";
+        }
+        console.log(red_mana);
+      } else if (black_mana.checked){
+        if (document.getElementById('black_card').style.display="none"){
+          document.getElementById('black_card').style.display="table-cell";
+        }
+        if (blue_mana.checked) {
+          document.getElementById('blue_card').style.display="table-cell";
+        } else {
+          document.getElementById('blue_card').style.display="none";
+        }
+        if (white_mana.checked) {
+          document.getElementById('white_card').style.display="table-cell";
+        } else {
+          document.getElementById('white_card').style.display="none";
+        }
+        if (green_mana.checked) {
+          document.getElementById('green_card').style.display="table-cell";
+        } else {
+          document.getElementById('green_card').style.display="none";
+        } 
+        if (none_mana.checked) {
+          document.getElementById('none_card').style.display="table-cell";
+        } else {
+          document.getElementById('none_card').style.display="none";
+        }
+        document.getElementById('red_card').style.display="none";
+        console.log(black_mana);
+      } else if (blue_mana.checked){
+        if (document.getElementById('blue_card').style.display="none"){
+          document.getElementById('blue_card').style.display="table-cell";
+        }
+        if (white_mana.checked) {
+          document.getElementById('white_card').style.display="table-cell";
+        } else {
+          document.getElementById('white_card').style.display="none";
+        }
+        if (green_mana.checked) {
+          document.getElementById('green_card').style.display="table-cell";
+        } else {
+          document.getElementById('green_card').style.display="none";
+        } 
+        if (none_mana.checked) {
+          document.getElementById('none_card').style.display="table-cell";
+        } else {
+          document.getElementById('none_card').style.display="none";
+        }
+        document.getElementById('red_card').style.display="none";
+        document.getElementById('black_card').style.display="none";
+        console.log(blue_mana);
+      } else if (white_mana.checked){
+        if (document.getElementById('white_card').style.display="none"){
+          document.getElementById('white_card').style.display="table-cell";
+        }
+        if (green_mana.checked) {
+          document.getElementById('green_card').style.display="table-cell";
+        } else {
+          document.getElementById('green_card').style.display="none";
+        } 
+        if (none_mana.checked) {
+          document.getElementById('none_card').style.display="table-cell";
+        } else {
+          document.getElementById('none_card').style.display="none";
+        }
+        document.getElementById('red_card').style.display="none";
+        document.getElementById('black_card').style.display="none";
+        document.getElementById('blue_card').style.display="none";
+        console.log(white_mana);
+      } else if (green_mana.checked){
+        if (document.getElementById('green_card').style.display="none"){
+          document.getElementById('green_card').style.display="table-cell";
+        }
+        if (none_mana.checked) {
+          document.getElementById('none_card').style.display="table-cell";
+        } else {
+          document.getElementById('none_card').style.display="none";
+        }
+        document.getElementById('red_card').style.display="none";
+        document.getElementById('black_card').style.display="none";
+        document.getElementById('blue_card').style.display="none";
+        document.getElementById('white_card').style.display="none";
+        console.log(green_mana);
+      } else if (none_mana.checked){
+        if (document.getElementById('none_card').style.display="none"){
+          document.getElementById('none_card').style.display="table-cell";
+        }
+        document.getElementById('red_card').style.display="none";
+        document.getElementById('black_card').style.display="none";
+        document.getElementById('blue_card').style.display="none";
+        document.getElementById('white_card').style.display="none";
+        document.getElementById('green_card').style.display="none";
+        console.log(none_mana);
+      } else {
+        document.getElementById('cards_box').style.display="none";
+      }
+    });
+
   </script>
 </body>
 </html>
