@@ -82,6 +82,7 @@
       const deckFormat = document.getElementById('deckFormat').value;
       const deckId = document.getElementById('deckId').value;
       const userId = currentUserId;
+      console.log(userId);
 
       const response = await fetch('/createDeck', {
         method: 'POST', 

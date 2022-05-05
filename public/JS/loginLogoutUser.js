@@ -1,6 +1,7 @@
 let currentUserId = null;
 // Update login state
 function maintainLoggedIn(userId, username) {
+  console.log(userId);
   console.log(userId + " " + username);
   let loginPanel = document.getElementById("loginPanelInfo");
 

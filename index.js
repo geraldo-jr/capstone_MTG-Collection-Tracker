@@ -115,12 +115,12 @@ express()
       const deckId = req.body.deck_id;
       const userId = req.body.user_id;
 
-      const queryCurrentUserId = await client.query(
-        `SELECT user_id FROM users WHERE user_id = '${userId}';`
-      );
+      
+
+      console.log(`INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
 
       const sqlInsert = await client.query(
-        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${queryCurrentUserId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
+        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
 
     }
