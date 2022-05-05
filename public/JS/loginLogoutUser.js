@@ -78,7 +78,7 @@ const createNewUser = async function(id) {
   if (uUsername.trim() === "" || !ValidateEmail(uEmail) || uPassword.trim() === "") {
       alert("Please, insert a valid username, email and password to create your new account");
   } else {
-    if (letter.classList.value !== "valid" && capital.classList.value !== "valid" && number.classList.value !== "valid" && length.classList.value !== "valid") {
+    if (letter.classList.value !== "valid" || capital.classList.value !== "valid" || number.classList.value !== "valid" || length.classList.value !== "valid") {
       alert("Invalid password. Please, create a password that contains 8 charaters and at lease one uppercase letter, one lowercase letter, a symbol and a number.");
     } else {      
       const response = await fetch('/signup_user', {
