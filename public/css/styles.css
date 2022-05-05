@@ -64,8 +64,7 @@ header {
   margin: 50px auto;
   width: 60%;
 }
-.signup-box h3,
-.signup-box p {
+.signup-box h3 {
   margin: 0 0 20px;
   font-weight: bold;
   color: #555;
@@ -107,7 +106,7 @@ header {
   cursor: pointer;
 }
 .close {
-  color: #aaa;
+  color: rgb(207, 206, 206);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -117,6 +116,39 @@ header {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+/* The message box is shown when the user clicks on the password field */
+#password-message {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  margin-top: 10px;
+}
+#password-message h3, 
+#password-message p {
+  margin: 2px 0px;
+}
+#password-message p {
+  font-size: 18px;
+}
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+.valid::before {
+  position: relative;
+  left: -5px;
+  content: '🗸';
+}
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+  color: red;
+}
+.invalid::before {
+  position: relative;
+  left: -5px;
+  content: "✘";
 }
 /* Filter and add cards elements */
 .add-card, .filter-cards {
