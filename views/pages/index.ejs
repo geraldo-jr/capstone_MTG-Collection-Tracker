@@ -69,16 +69,7 @@
     </div>
   </header>
 
-  <a href="db-info">Check DB insert and info</a>
-  <br>
-  <br>
-
-  <div id="addCardDeck">
-    <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
-    <label for="selectDeck">Select Deck:</label>
-    <p id="test"></p>
-
-  </div>
+  
   
 
   <form>
@@ -165,42 +156,6 @@
 
       console.log(result);
     };
-
-    // Adding a card to the selected deck
-    const addCardToDeck = async function() {
-      const cardName = document.getElementById('cardSelectionInput').value;
-
-      const response = await fetch('/fetchCard', {
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          card_name: cardName
-        })
-      })
-
-      const result = await response.json();
-
-      if (result.cardName === undefined) {
-        document.getElementById('test').innerText = "Fails";
-      } else {
-        document.getElementById('test').innerText = "Works?";
-        const cardToAdd = result.cardName;
-
-        const add = await post('/addToDeck', {
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          card_name: cardName
-        })
-      })
-      }
-    }
     
     // get access to the form subbmitted.
     const form = document.getElementById('sort');

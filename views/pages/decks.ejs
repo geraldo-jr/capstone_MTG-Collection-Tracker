@@ -110,6 +110,16 @@
         <button onclick="javascript:editDeck(<%= r.deck_id %>)">Edit</button>
         <% }); %>
     </div>
+    <a href="db-info">Check DB insert and info</a>
+    <br>
+    <br>
+
+    <div id="addCardDeck">
+      <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
+      <label for="selectDeck">Select Deck:</label>
+      <p id="test"></p>
+
+    </div>
   <script src="/JS/loginPanels.js"></script>
 </body>
 </html>
