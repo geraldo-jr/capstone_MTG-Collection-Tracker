@@ -73,12 +73,12 @@
   <br>
   <br>
 
-  <div id="addCardDeck">
+  <!-- <div id="addCardDeck">
     <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
     <label for="selectDeck">Select Deck:</label>
     <p id="test"></p>
 
-  </div>
+  </div> -->
   
   <fieldset class="add-card">
     <legend><p>Add card:</p></legend>
@@ -189,7 +189,7 @@
               cardImageDisplay.onclick = function () {
                 let cardSelectedDisplayInfo = document.getElementById('card-selected-info');
                 cardSelectedDisplayInfo.style.display = "block";
-                cardSelectedDisplayInfo.innerText = `Card "${card.name}" number ${card.number} from set "${card.setName}" selected.`;
+                cardSelectedDisplayInfo.innerText = `Card selected: "${card.name}" number ${card.number} from set "${card.setName}".`;
                 document.getElementById('display-card-options').style.display = "none";
 
               };
