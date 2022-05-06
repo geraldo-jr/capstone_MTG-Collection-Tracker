@@ -44,24 +44,72 @@
           </div>
         </div>
       </div>
-      <div id="login" class="signup-box">
-        <div class="box-content">
-          <div class="signup-form">
-            <a class="close">&times;</a>
-            <div class="openedSignupBox">
-              <h3>Create New Account</h3>
-              <div>
-                <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-                <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
-                <button type="submit" onclick="javascript:loginUser()">Login</button>
-              </div>
+    </div>
+    <div id="login" class="signup-box">
+      <div class="box-content">
+        <div class="signup-form">
+          <a class="close">&times;</a>
+          <div class="openedSignupBox">
+            <h3>Create New Account</h3>
+            <div>
+              <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
+              <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
+              <button type="submit" onclick="javascript:loginUser()">Login</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <br><br><br><br><h4>Create a new Deck:</h4>
+  <div>
+    <label for="newDeckName">Deck Name:</label><br>
+    <input type="text" id="newDeckName" name="newDeckName"><br>
+    <label for="deckDesc">Description:</label><br>
+    <input type="text" id="deckDesc" name="deckDesc"><br>
+    <label for="deckFormat">Format:</label><br>
+    <input type="text" id="deckFormat" name="deckFormat"><br>
+    <label for="deckId">Deck ID:</label><br>
+    <input type="number" id="deckId" name="deckId"><br>
+    <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
+  </div>
+
+  <script>
+    // Create a new deck and add it to the database
+    const createDeck = async function() {
+      const newDeckName = document.getElementById('newDeckName').value;
+      const deckDesc = document.getElementById('deckDesc').value;
+      const deckFormat = document.getElementById('deckFormat').value;
+      const deckId = document.getElementById('deckId').value;
+      const userId = currentUserId;
+      console.log(userId);
+
+      const response = await fetch('/createDeck', {
+        method: 'POST', 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          deck_name: newDeckName,
+          deck_desc: deckDesc,
+          deck_format: deckFormat,
+          deck_id: deckId,
+          user_id: userId
+        })
+      });
+      
+      const result = await response.json();
+    }
+  </script>
   </header>
   <h1>Decks</h1>
+    <div>
+      <% decks.forEach(function(r) { %>
+        <p><%= r.deck_name %></p><br>
+        <button onclick="javascript:editDeck(<%= r.deck_id %>)">Edit</button>
+        <% }); %>
+    </div>
   <script src="/JS/loginPanels.js"></script>
 </body>
 </html>

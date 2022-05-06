@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 const mtg = require('mtgsdk');
 const { render } = require('express/lib/response');
+const { connect } = require('http2');
 let userState = {};
 
 
@@ -46,7 +47,16 @@ express()
     }
   })
   .get('/decks', async(req, res) => {
-    res.render('pages/decks');
+    const client = await pool.connect();
+    const decks = await client.query(
+      `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
+    );
+    const locals = {
+      'decks': (decks) ? decks.rows[3] : null
+    };
+
+    res.render('pages/decks', locals);
+    client.release();
   })
   .get('/help', async(req, res) => {
     res.render('pages/help');
@@ -82,7 +92,56 @@ express()
       res.send("Error: " + err);
     }
   })
-  .post('/save_card', async(req, res) =>{
+  .post('/addToDeck', async(req,res) => {
+    try {
+      const client = await pool.connect();
+      const selDeck = req.body.deck_id;
+      const selCard = req.body.card_id;
+
+      const sqlInsert = await client.query(
+        `INSERT INTO deck_card (deck_id, card_id) VALUES ('${selDeck}', '${selCard}')`
+      );
+
+      const result = {
+        'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
+      };
+      res.set({
+        'Content-Type': 'application/json'
+      });
+      res.json({ requestBody: result });
+
+      client.release();
+    }
+    catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+
+  })
+  .post('/createDeck', async(req, res) => {
+    try {
+      const client = await pool.connect();
+      const deckName = req.body.deck_name;
+      const deckDesc = req.body.deck_desc;
+      const deckFormat = req.body.deck_format;
+      const deckId = req.body.deck_id;
+      const userId = req.body.user_id;
+
+      
+
+      console.log(`INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
+
+      const sqlInsert = await client.query(
+        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
+      )
+
+    }
+    catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+  })
+  .post('/save_card', async(req, res) => {
     // User the card fechted with /fetchCard and save here into the db
     // Still need to figure out how to make user chose a card when has more then one of the same from different sets
   })
@@ -103,10 +162,15 @@ express()
       const users = await client.query(
         `SELECT user_id, last_name, username FROM users;`
       );
+
+      const decks = await client.query(
+        `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
+      );
       
       const locals = {
         'tables': (tables) ? tables.rows : null,
-        'users': (users) ? users.rows : null
+        'users': (users) ? users.rows : null,
+        'decks': (decks) ? decks.rows : null
       };
 
       res.render('pages/db-info', locals);

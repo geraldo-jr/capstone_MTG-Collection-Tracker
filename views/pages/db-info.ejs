@@ -15,5 +15,9 @@
   <% users.forEach(function(r) { %>
     <li>User ID is <%= r.user_id %> with last name of "<%= r.last_name %>" has the username of @<%= r.username %></li>
   <% }); %>
+  <h2>Decks created:</h2>
+  <% decks.forEach(function(r) { %>
+    <li>User: <%= r.user_id %>, Deck ID: <%= r.deck_id %>, Deck Name: <%= r.deck_name %>, Deck Format: <%= r.type_id %>, Description: <%= r.description %></li>
+  <% }); %>
 </body>
 </html>
