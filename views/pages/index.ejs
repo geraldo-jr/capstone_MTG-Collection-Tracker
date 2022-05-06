@@ -69,24 +69,42 @@
     </div>
   </header>
 
+<<<<<<< HEAD
   
-  
+=======
+  <a href="db-info">Check DB insert and info</a>
+  <br>
+  <br>
 
-  <form>
+  <!-- <div id="addCardDeck">
+    <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
+    <label for="selectDeck">Select Deck:</label>
+    <p id="test"></p>
+
+  </div> -->
+>>>>>>> c048fbc63e253fc5ed293f75fcffd8f443de3dc3
+  
   <fieldset class="add-card">
     <legend><p>Add card:</p></legend>
-    <label for="cardSelection">Type the card you want: </label> <input type="text" name="cardSelection" id="cardSelectionInput">
-    <input type="submit" name="submitCardSelection" value="Search Card" onclick="javascript:getCardInfo()">
+    <label for="cardSelection">Card name: </label> <input type="text" name="cardSelection" id="cardSelectionInput" placeholder="Insert card name">
+    <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
+    <p id="card-selected-info"></p>
+    <label for="numOfCopies">Copies:</label>
+    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99">
+    <span>Foiled:</span>
+    <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
+    <input type="radio" name="foiled" id="not-foiled" value="false"><label for="notFoiled">No</label>
     <br>
-    <span>Result:</span>
-    
-    <div id="display-card-image">
-      <img id="card-image-result">
+    <input type="submit" name="addCard" value="Add Card to Collection">
+
+    <div id="display-card-options">
+      <a class="close">&times;</a>
+      <span><b>Select your cards:</b></span>
+      <div class="display-cards-result" id="display-cards-result">
+      </div>
+      
     </div>
-    
-    <div id="display-card-selected">
-    </div>
-  </fieldset>
+  </fieldset> <!-- end of add card element -->
 
   <fieldset class="filter-cards">
     <legend><p>Filters:</p></legend>
@@ -99,7 +117,7 @@
     <input type="text" placeholder="Rarity" id="card-rarity">
     <br>
     <input type="submit" value="Filter Table">
-  </fieldset>
+  </fieldset> <!-- end of filter card element -->
 
   <form id="sort">
     <fieldset>
@@ -129,34 +147,77 @@
   <script src="/JS/loginPanels.js"></script>
   <script src="/JS/validatePassword.js"></script>
   <script>
+        
     // Fetching card from API
     const getCardInfo = async function() {
       const cardName = document.getElementById('cardSelectionInput').value;
-      
-      const response = await fetch('/fetchCard', {
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          card_name: cardName
-        })
-      });
-      
-      const result = await response.json();
 
-      // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
-      if (result.cardText === undefined) {
-        document.getElementById('display-card-selected').innerText = result.cardSelected;
+      if (cardName.trim() === "") {
+        alert("Please, insert a valid input to search for a card.")
       } else {
-        document.getElementById('card-image-result').setAttribute('src', result.cardImage);
-        document.getElementById('display-card-selected').innerText = result.cardText;
-      }
+              
+        const response = await fetch('/fetchCard', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            card_name: cardName
+          })
+        });
+        
+        const result = await response.json();
+        
+        let showResultsWindow = document.getElementById('display-cards-result');
+        showResultsWindow.innerHTML = "";
 
-      console.log(result);
+        // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
+        if (result.cards === undefined) {
+          errorFecthingCard(showResultsWindow, "Card not found with this name.")
+        } else {
+          let cardsFounded = result.cards;
+          console.log(cardsFounded.length);
+          if (cardsFounded.length >= 20) {
+            errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.")            
+          } else {
+            
+            cardsFounded.forEach(card => {
+              let cardNameDisplay = document.createElement('span');
+              cardNameDisplay.innerText = "Card name:" + card.name;
+              let cardImageDisplay = document.createElement('img');
+              cardImageDisplay.setAttribute('src', card.imageUrl);
+              cardImageDisplay.setAttribute('class', 'card-image-result');
+              cardImageDisplay.id = card.multiverseid;
+              showResultsWindow.append(cardNameDisplay, cardImageDisplay);
+              cardImageDisplay.onclick = function () {
+                let cardSelectedDisplayInfo = document.getElementById('card-selected-info');
+                cardSelectedDisplayInfo.style.display = "block";
+                cardSelectedDisplayInfo.innerText = `Card selected: "${card.name}" number ${card.number} from set "${card.setName}".`;
+                document.getElementById('display-card-options').style.display = "none";
+
+              };
+            });
+
+            console.log(result.cards);
+          }
+        }
+        document.getElementById('display-card-options').style.display = "block";
+      }
     };
+<<<<<<< HEAD
     
+=======
+
+    // Display a message on the selecting card box when no card found, too many cards result, or incorrect name entered.
+    function errorFecthingCard(showResultsWindow, errorMessage) {
+      
+      let displayErrorMessage = document.createElement('span');
+      displayErrorMessage.innerText = errorMessage;
+      showResultsWindow.appendChild(displayErrorMessage);
+    }
+
+>>>>>>> c048fbc63e253fc5ed293f75fcffd8f443de3dc3
     // get access to the form subbmitted.
     const form = document.getElementById('sort');
 

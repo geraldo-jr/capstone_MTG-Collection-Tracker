@@ -17,7 +17,12 @@ let closeBtn = [...document.querySelectorAll(".close")];
 closeBtn.forEach(function (btn) {
   btn.onclick = function() {
     let floaringBox = btn.closest(".signup-box");
-    floaringBox.style.display = "none";
+    let floaringSelectCardBox = btn.closest("#display-card-options");
+    if (floaringSelectCardBox === null) {
+      floaringBox.style.display = "none";
+    } else {
+      floaringSelectCardBox.style.display = "none";
+    }
   }
 });
 
