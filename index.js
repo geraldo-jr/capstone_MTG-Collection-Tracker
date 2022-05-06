@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 const mtg = require('mtgsdk');
 const { render } = require('express/lib/response');
+const { connect } = require('http2');
 let userState = {};
 
 const pool = new Pool({
@@ -45,7 +46,16 @@ express()
     }
   })
   .get('/decks', async(req, res) => {
-    res.render('pages/decks');
+    const client = await pool.connect();
+    const decks = await client.query(
+      `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
+    );
+    const locals = {
+      'decks': (decks) ? decks.rows[3] : null
+    };
+
+    res.render('pages/decks', locals);
+    client.release();
   })
   .get('/help', async(req, res) => {
     res.render('pages/help');
