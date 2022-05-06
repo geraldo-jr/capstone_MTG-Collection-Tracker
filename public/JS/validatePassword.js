@@ -55,31 +55,3 @@ passwordValue.onkeyup = function() {
     length.classList.add("invalid");
   }
 }
-
-// Fetching card from API
-const getCardInfo = async function() {
-  const cardName = document.getElementById('cardSelectionInput').value;
-  
-  const response = await fetch('/fetchCard', {
-    method: 'POST', 
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      card_name: cardName
-    })
-  });
-  
-  const result = await response.json();
-
-  // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
-  if (result.cardText === undefined) {
-    document.getElementById('display-card-selected').innerText = result.cardSelected;
-  } else {
-    document.getElementById('card-image-result').setAttribute('src', result.cardImage);
-    document.getElementById('display-card-selected').innerText = result.cardText;
-  }
-
-  console.log(result);
-};

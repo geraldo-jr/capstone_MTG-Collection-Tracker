@@ -6,6 +6,7 @@ const mtg = require('mtgsdk');
 const { render } = require('express/lib/response');
 let userState = {};
 
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -66,8 +67,9 @@ express()
 
         } else {
           const locals = {
-            'cardText': (cards) ? cards[0].text : null,
-            'cardImage': (cards) ? cards[0].imageUrl : null
+            'card_Name': (cards) ? cards[0].name : null,
+            'cardImage': (cards) ? cards[0].imageUrl : null,
+            'cards': (cards) ? cards : null
           };
 
           res.send(locals);
