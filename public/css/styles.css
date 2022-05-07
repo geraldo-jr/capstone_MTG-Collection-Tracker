@@ -156,7 +156,7 @@ header {
   content: "✘";
 }
 /* Filter and add cards elements */
-.add-card, .filter-cards {
+.add-card, .filter-cards, .create-deck {
   background-color: #D9D9D9;
   width: 46%;
   height: 7rem;
@@ -164,10 +164,10 @@ header {
   border: none;
   position: relative;
 }
-.filter-cards {
+.filter-cards, .create-deck {
   float: left;
 }
-.add-card legend, .filter-cards legend {
+.add-card legend, .filter-cards legend, .create-deck legend {
   font-weight: bold;
   position: absolute;
   top: -18px;
