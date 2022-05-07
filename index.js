@@ -142,8 +142,26 @@ express()
     }
   })
   .post('/save_card', async(req, res) => {
-    // User the card fechted with /fetchCard and save here into the db
-    // Still need to figure out how to make user chose a card when has more then one of the same from different sets
+    try {
+      
+      const client = await pool.connect();
+      
+      console.log(`(${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})`);
+      
+      const sqlInsert = await client.query(
+        `INSERT INTO card (multiverse_id, user_id, card_name, mana_cost, card_text, card_type, card_subtypes, set_name, power, toughness, card_image, copies, foiled) VALUES 
+        (${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})
+        RETURNING card_id;`);
+
+      res.send(sqlInsert);
+      
+      client.release();
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+    
   })
   .get('/db-info', async(red, res) => {
     try {
@@ -166,10 +184,15 @@ express()
       const decks = await client.query(
         `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
       );
-      
+
+      const cards = await client.query(
+        `SELECT * FROM card;`
+      );
+            
       const locals = {
         'tables': (tables) ? tables.rows : null,
         'users': (users) ? users.rows : null,
+        'card': (cards) ? cards.rows : null,
         'decks': (decks) ? decks.rows : null
       };
 
@@ -194,8 +217,6 @@ express()
         `INSERT INTO users (password, username, email, first_name, last_name)
         VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
         RETURNING user_id, username;`);
-
-      // console.log(`Tracking task ${sqlInsert}`);
 
       const result = {
         'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
