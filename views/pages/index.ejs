@@ -72,26 +72,19 @@
   <a href="db-info">Check DB insert and info</a>
   <br>
   <br>
-
-  <!-- <div id="addCardDeck">
-    <button id="addCardToDeck" name="addCardToDeck" onclick="javascript:addCardToDeck()">Add card to selected deck.</button>
-    <label for="selectDeck">Select Deck:</label>
-    <p id="test"></p>
-
-  </div> -->
   
   <fieldset class="add-card">
-    <legend><p>Add card:</p></legend>
+    <legend><p>Add card</p></legend>
     <label for="cardSelection">Card name: </label> <input type="text" name="cardSelection" id="cardSelectionInput" placeholder="Insert card name">
     <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
     <p id="card-selected-info"></p>
     <label for="numOfCopies">Copies:</label>
-    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99">
+    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
     <span>Foiled:</span>
     <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
-    <input type="radio" name="foiled" id="not-foiled" value="false"><label for="notFoiled">No</label>
+    <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
     <br>
-    <input type="submit" name="addCard" value="Add Card to Collection">
+    <input type="submit" name="addCard" value="Add Card to Collection" onclick="addCardToCollection()">
 
     <div id="display-card-options">
       <a class="close">&times;</a>
@@ -103,7 +96,7 @@
   </fieldset> <!-- end of add card element -->
 
   <fieldset class="filter-cards">
-    <legend><p>Filters:</p></legend>
+    <legend><p>Filters</p></legend>
     <input type="text" placeholder="Card Text" id="card-text">
     <input type="text" placeholder="Set" id="card-set">
     <input type="text" placeholder="Type" id="card-type">
@@ -143,7 +136,9 @@
   <script src="/JS/loginPanels.js"></script>
   <script src="/JS/validatePassword.js"></script>
   <script>
-        
+    
+    let cardSelected;
+    
     // Fetching card from API
     const getCardInfo = async function() {
       const cardName = document.getElementById('cardSelectionInput').value;
@@ -184,14 +179,13 @@
               let cardImageDisplay = document.createElement('img');
               cardImageDisplay.setAttribute('src', card.imageUrl);
               cardImageDisplay.setAttribute('class', 'card-image-result');
-              cardImageDisplay.id = card.multiverseid;
               showResultsWindow.append(cardNameDisplay, cardImageDisplay);
               cardImageDisplay.onclick = function () {
                 let cardSelectedDisplayInfo = document.getElementById('card-selected-info');
                 cardSelectedDisplayInfo.style.display = "block";
                 cardSelectedDisplayInfo.innerText = `Card selected: "${card.name}" number ${card.number} from set "${card.setName}".`;
                 document.getElementById('display-card-options').style.display = "none";
-
+                cardSelected = card;
               };
             });
 
@@ -209,6 +203,43 @@
       displayErrorMessage.innerText = errorMessage;
       showResultsWindow.appendChild(displayErrorMessage);
     }
+
+    const addCardToCollection = async function() {
+      console.log(cardSelected.multiverseid);
+      console.log(document.getElementById('num-of-copies').value);
+      const response = await fetch('save_card', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          multiverseId: cardSelected.multiverseid,
+          userId: currentUserId,
+          card_Name: cardSelected.name,
+          manaCost: cardSelected.manaCost,
+          cardText: cardSelected.text,
+          cardType: cardSelected.type,
+          cardSubtype: cardSelected.subtypes,
+          setName: cardSelected.setName,
+          power: cardSelected.power !== undefined ? cardSelected.power : null,
+          toughness: (cardSelected.toughness !== undefined ? cardSelected.toughness : null),
+          cardImage: cardSelected.imageUrl,
+          copies: document.getElementById('num-of-copies').value,
+          foiled: (() => {
+            let radios = document.getElementsByName('foiled');
+            for (var radio of radios) {
+              if (radio.checked) {
+                return radio.value;
+              }
+            }
+          })()
+        })
+      });
+
+      // const result = await response.json();
+      console.log(response);
+    };
 
     // get access to the form subbmitted.
     const form = document.getElementById('sort');

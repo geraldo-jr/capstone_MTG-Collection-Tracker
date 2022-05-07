@@ -19,5 +19,9 @@
   <% decks.forEach(function(r) { %>
     <li>User: <%= r.user_id %>, Deck ID: <%= r.deck_id %>, Deck Name: <%= r.deck_name %>, Deck Format: <%= r.type_id %>, Description: <%= r.description %></li>
   <% }); %>
+  <h2>Cards in the DB:</h2>
+  <% card.forEach(function(r) { %>
+    <li>User: <%= r.user_id %>, Card ID: <%= r.card_id %>, Card Name: <%= r.card_name %>, multiverseId: <%= r.multiverse_id %>, Set name: <%= r.set_name %>, Copies: <%= r.copies %>, Foiled: <%= r.foiled %></li>
+  <% }); %>
 </body>
 </html>
