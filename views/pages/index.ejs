@@ -13,7 +13,8 @@
 </head>
 <body>
   <header >
-    <h2 class="logo-mtg-name">MTG Collection Tracker</h2>
+    <div class="logo-mtg-name">
+    <h2>MTG Collection Tracker</h2></div>
 
     <nav class="nav">
       <ul>
@@ -77,14 +78,15 @@
     <legend><p>Add card</p></legend>
     <label for="cardSelection">Card name: </label> <input type="text" name="cardSelection" id="cardSelectionInput" placeholder="Insert card name">
     <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
-    <p id="card-selected-info"></p>
+    <p id="card-info">Card Selected: <span id="card-selected-info">-</span></p>
     <label for="numOfCopies">Copies:</label>
     <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
     <span>Foiled:</span>
     <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
     <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
     <br>
-    <input type="submit" name="addCard" value="Add Card to Collection" onclick="addCardToCollection()">
+    
+    <input type="submit" name="addCard" value="Add Card" onclick="addCardToCollection()">
 
     <div id="display-card-options">
       <a class="close">&times;</a>
@@ -168,7 +170,7 @@
           errorFecthingCard(showResultsWindow, "Card not found with this name.")
         } else {
           let cardsFounded = result.cards;
-          console.log(cardsFounded.length);
+          
           if (cardsFounded.length >= 20) {
             errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.")            
           } else {
@@ -182,8 +184,7 @@
               showResultsWindow.append(cardNameDisplay, cardImageDisplay);
               cardImageDisplay.onclick = function () {
                 let cardSelectedDisplayInfo = document.getElementById('card-selected-info');
-                cardSelectedDisplayInfo.style.display = "block";
-                cardSelectedDisplayInfo.innerText = `Card selected: "${card.name}" number ${card.number} from set "${card.setName}".`;
+                cardSelectedDisplayInfo.innerText = `"${card.name}" from Set "${card.setName}".`;
                 document.getElementById('display-card-options').style.display = "none";
                 cardSelected = card;
               };
@@ -205,40 +206,46 @@
     }
 
     const addCardToCollection = async function() {
-      console.log(cardSelected.multiverseid);
-      console.log(document.getElementById('num-of-copies').value);
-      const response = await fetch('save_card', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          multiverseId: cardSelected.multiverseid,
-          userId: currentUserId,
-          card_Name: cardSelected.name,
-          manaCost: cardSelected.manaCost,
-          cardText: cardSelected.text,
-          cardType: cardSelected.type,
-          cardSubtype: cardSelected.subtypes,
-          setName: cardSelected.setName,
-          power: cardSelected.power !== undefined ? cardSelected.power : null,
-          toughness: (cardSelected.toughness !== undefined ? cardSelected.toughness : null),
-          cardImage: cardSelected.imageUrl,
-          copies: document.getElementById('num-of-copies').value,
-          foiled: (() => {
-            let radios = document.getElementsByName('foiled');
-            for (var radio of radios) {
-              if (radio.checked) {
-                return radio.value;
+      
+      if (cardSelected === undefined) {
+        alert("Select a card to add it to your collection.");
+      } else {
+        
+        const response = await fetch('save_card', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            multiverseId: cardSelected.multiverseid,
+            userId: currentUserId,
+            card_Name: cardSelected.name,
+            manaCost: cardSelected.manaCost,
+            cardText: cardSelected.text,
+            cardType: cardSelected.type,
+            cardSubtype: cardSelected.subtypes,
+            setName: cardSelected.setName,
+            power: cardSelected.power !== undefined ? cardSelected.power : null,
+            toughness: (cardSelected.toughness !== undefined ? cardSelected.toughness : null),
+            cardImage: cardSelected.imageUrl,
+            copies: document.getElementById('num-of-copies').value,
+            foiled: (() => {
+              let radios = document.getElementsByName('foiled');
+              for (var radio of radios) {
+                if (radio.checked) {
+                  return radio.value;
+                }
               }
-            }
-          })()
-        })
-      });
+            })()
+          })
+        });
 
-      // const result = await response.json();
-      console.log(response);
+        const result = await response.text();
+        alert(result);
+        console.log(response);
+      }
+
     };
 
     // get access to the form subbmitted.
