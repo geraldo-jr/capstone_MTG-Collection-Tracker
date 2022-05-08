@@ -12,7 +12,7 @@
   <title>Decks</title>
 </head>
 <body>
-  <header >
+  <header>
     <h2 class="logo-mtg-name">MTG Collection Tracker</h2>
 
     <nav class="nav">
@@ -60,20 +60,44 @@
         </div>
       </div>
     </div>
-  </div>
-  <br><br><br><br><h4>Create a new Deck:</h4>
-  <div>
-    <label for="newDeckName">Deck Name:</label><br>
+  </header>
+    
+  <a href="db-info">Check DB insert and info</a>
+  <br><br>
+  
+  <fieldset class="create-deck">
+    <legend>Create a new Deck:</legend>
+    <label for="newDeckName">Deck Name:</label>
     <input type="text" id="newDeckName" name="newDeckName"><br>
-    <label for="deckDesc">Description:</label><br>
+    <label for="deckDesc">Description:</label>
     <input type="text" id="deckDesc" name="deckDesc"><br>
-    <label for="deckFormat">Format:</label><br>
+    <label for="deckFormat">Format:</label>
     <input type="text" id="deckFormat" name="deckFormat"><br>
-    <label for="deckId">Deck ID:</label><br>
+    <label for="deckId">Deck ID:</label>
     <input type="number" id="deckId" name="deckId"><br>
     <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
-  </div>
+  </fieldset>
 
+  <fieldset class="add-card">
+    <legend><p>Add card to deck</p></legend>
+    <label for="cardSelection">Card name: </label> <input type="text" name="cardSelection" id="cardSelectionInput" placeholder="Insert card name">
+    <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
+    <p id="card-selected-info"></p>
+    <label for="numOfCopies">Copies:</label>
+    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
+    <br>
+    <input type="submit" name="addCard" value="Add Card to Deck" onclick="addCardToDeck()">
+
+    <div id="display-card-options">
+      <a class="close">&times;</a>
+      <span><b>Select your cards:</b></span>
+      <div class="display-cards-result" id="display-cards-result">
+      </div>
+      
+    </div>
+
+  </fieldset> <!-- end of add card element -->
+  
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
@@ -101,15 +125,77 @@
       
       const result = await response.json();
     }
+
+    const addCardToDeck = async function() {
+      const selDeck = document.getElementById('selectDeck');
+
+    }
+
+    // Fetch card info from API
+    const getCardInfo = async function() {
+      const cardName = document.getElementById('cardSelectionInput').value;
+
+      if (cardName.trim() === "") {
+        alert("Please, insert a valid input to search for a card.")
+      } else {
+              
+        const response = await fetch('/fetchCard', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            card_name: cardName
+          })
+        });
+        
+        const result = await response.json();
+        
+        let showResultsWindow = document.getElementById('display-cards-result');
+        showResultsWindow.innerHTML = "";
+
+        // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
+        if (result.cards === undefined) {
+          errorFecthingCard(showResultsWindow, "Card not found with this name.")
+        } else {
+          let cardsFounded = result.cards;
+          console.log(cardsFounded.length);
+          if (cardsFounded.length >= 20) {
+            errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.")            
+          } else {
+            
+            cardsFounded.forEach(card => {
+              let cardNameDisplay = document.createElement('span');
+              cardNameDisplay.innerText = "Card name:" + card.name;
+              let cardImageDisplay = document.createElement('img');
+              cardImageDisplay.setAttribute('src', card.imageUrl);
+              cardImageDisplay.setAttribute('class', 'card-image-result');
+              showResultsWindow.append(cardNameDisplay, cardImageDisplay);
+              cardImageDisplay.onclick = function () {
+                let cardSelectedDisplayInfo = document.getElementById('card-selected-info');
+                cardSelectedDisplayInfo.style.display = "block";
+                cardSelectedDisplayInfo.innerText = `Card selected: "${card.name}" number ${card.number} from set "${card.setName}".`;
+                document.getElementById('display-card-options').style.display = "none";
+                cardSelected = card;
+              };
+            });
+
+            console.log(result.cards);
+          }
+        }
+        document.getElementById('display-card-options').style.display = "block";
+      }
+    };
+
+    // Display a message on the selecting card box when no card found, too many cards result, or incorrect name entered.
+    function errorFecthingCard(showResultsWindow, errorMessage) {
+      
+      let displayErrorMessage = document.createElement('span');
+      displayErrorMessage.innerText = errorMessage;
+      showResultsWindow.appendChild(displayErrorMessage);
+    }
   </script>
-  </header>
-  <h1>Decks</h1>
-    <div>
-      <% decks.forEach(function(r) { %>
-        <p><%= r.deck_name %></p><br>
-        <button onclick="javascript:editDeck(<%= r.deck_id %>)">Edit</button>
-        <% }); %>
-    </div>
   <script src="/JS/loginPanels.js"></script>
 </body>
 </html>
