@@ -97,35 +97,32 @@
     </div>
   </fieldset> <!-- end of add card element -->
 
-  <fieldset class="filter-cards">
-    <legend><p>Filters</p></legend>
-    <input type="text" placeholder="Card Text" id="card-text">
-    <input type="text" placeholder="Set" id="card-set">
-    <input type="text" placeholder="Type" id="card-type">
-    <input type="text" placeholder="CMC" id="card-cmc">
-    <input type="text" placeholder="Color" id="card-color">
-    <input type="text" placeholder="Subtype" id="card-subtype">
-    <input type="text" placeholder="Rarity" id="card-rarity">
-    <br>
-    <input type="submit" value="Filter Table">
-  </fieldset> <!-- end of filter card element -->
+  <form id="filter">
+    <fieldset class="filter-cards">
+      <legend><p>Filters:</p></legend>
+      <input type="checkbox" id="red_type" name="card_type" placeholder="Red type of mana">Red Mana Type
+      <input type="checkbox" id="black_type" name="card_type" placeholder="Black type of mana">Black Mana Type
+      <input type="checkbox" id="blue_type" name="card_type" placeholder="Blue type of mana">Blue Mana Type
+      <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
+      <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type
+      <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br>
+      <input type="submit" value="Filter Table">
+    </fieldset>
+  </form>
 
   <form id="sort">
-    <fieldset>
-      <legend><h3>Sort your cards</h3></legend>
-      <input type="checkbox" id="mana_cost" name="card_type" placeholder="Mana cost sort" value="true">Mana Cost<br>
-      <input type="checkbox" id="red_type" name="card_type" placeholder="Red type of mana">Red Mana Type<br>
-      <input type="checkbox" id="black_type" name="card_type" placeholder="Black type of mana">Black Mana Type<br>
-      <input type="checkbox" id="blue_type" name="card_type" placeholder="Blue type of mana">Blue Mana Type<br>
-      <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
-      <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type<br>
-      <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br><br>
+    <fieldset class="sort">
+      Sort by: <select name="sort_cards" id="sort_cards">
+        <option>Sort</option>
+        <option>Name</option>
+        <option>Mana cost</option>
+      </select>
       <input type="submit" value="Sort">
     </fieldset>
   </form>
   
   <div class="cards_box">
-    <div class="cards_row">
+    <div id="cards_row" class="cards_row">
       <div id="red_card" class="card">3 cost Red</div>
       <div id="black_card" class="card">6 cost Black</div>
       <div id="blue_card" class="card">2 cost Blue</div>
@@ -249,17 +246,16 @@
     };
 
     // get access to the form subbmitted.
-    const form = document.getElementById('sort');
+    const form1 = document.getElementById('filter');
 
-    form.addEventListener('submit', (event) => {
+    form1.addEventListener('submit', (event) => {
       event.preventDefault();
-      var mana_cost = form.elements[1];
-      var red_mana = form.elements[2];
-      var black_mana = form.elements[3];
-      var blue_mana = form.elements[4];
-      var white_mana = form.elements[5];
-      var green_mana = form.elements[6];
-      var none_mana = form.elements[7];
+      var red_mana = form1.elements[1];
+      var black_mana = form1.elements[2];
+      var blue_mana = form1.elements[3];
+      var white_mana = form1.elements[4];
+      var green_mana = form1.elements[5];
+      var none_mana = form1.elements[6];
 
       if (red_mana.checked){
         if (document.getElementById('red_card').style.display="none"){
@@ -290,7 +286,6 @@
         } else {
           document.getElementById('none_card').style.display="none";
         }
-        console.log(red_mana);
       } else if (black_mana.checked){
         if (document.getElementById('black_card').style.display="none"){
           document.getElementById('black_card').style.display="table-cell";
@@ -316,7 +311,6 @@
           document.getElementById('none_card').style.display="none";
         }
         document.getElementById('red_card').style.display="none";
-        console.log(black_mana);
       } else if (blue_mana.checked){
         if (document.getElementById('blue_card').style.display="none"){
           document.getElementById('blue_card').style.display="table-cell";
@@ -338,7 +332,6 @@
         }
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
-        console.log(blue_mana);
       } else if (white_mana.checked){
         if (document.getElementById('white_card').style.display="none"){
           document.getElementById('white_card').style.display="table-cell";
@@ -356,7 +349,6 @@
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
-        console.log(white_mana);
       } else if (green_mana.checked){
         if (document.getElementById('green_card').style.display="none"){
           document.getElementById('green_card').style.display="table-cell";
@@ -370,7 +362,6 @@
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
-        console.log(green_mana);
       } else if (none_mana.checked){
         if (document.getElementById('none_card').style.display="none"){
           document.getElementById('none_card').style.display="table-cell";
@@ -380,11 +371,69 @@
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
         document.getElementById('green_card').style.display="none";
-        console.log(none_mana);
       } else {
-        document.getElementById('cards_box').style.display="none";
+        document.getElementById('red_card').style.display="none";
+        document.getElementById('black_card').style.display="none";
+        document.getElementById('blue_card').style.display="none";
+        document.getElementById('white_card').style.display="none";
+        document.getElementById('green_card').style.display="none";
+        document.getElementById('none_card').style.display="none";
       }
     });
+
+    const form2 = document.getElementById('sort');
+
+    form2.addEventListener('submit', (event) => {
+      event.preventDefault();
+      var choice = form2.elements[1];
+      var list, i, switching, b, should_switch;
+      list = document.getElementById("cards_row");
+      switching = true
+
+      if (choice.value === "Sort") {
+        alert("Please pick an option to sort by.")
+      } else if (choice.value === "Mana cost"){
+        while (switching) {
+          switching = false;
+          b = list.getElementsByTagName("DIV");
+          for (i = 0; i < (b.length - 1); i++) {
+            should_switch = false;
+            var str1 = b[i].innerHTML.toString();
+            var str2 = b[i+1].innerHTML.toString();
+            var matches1 = str1.match(/(\d+)/)[0];
+            var matches2 = str2.match(/(\d+)/)[0];
+            if (matches1 > matches2){
+              should_switch= true;
+              break;
+            }
+          }
+          if (should_switch) {
+            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            switching = true;
+          }
+        }
+      } else if (choice.value === "Name"){
+        while (switching) {
+          switching = false;
+          b = list.getElementsByTagName("DIV");
+          for (i = 0; i < (b.length - 1); i++) {
+            should_switch = false;
+            var str1 = b[i].innerHTML.toString();
+            var str2 = b[i+1].innerHTML.toString();
+            var cleaned1 = str1.replace(/[0-9]/g, '');
+            var cleaned2 = str2.replace(/[0-9]/g, '');
+            if (cleaned1 > cleaned2){
+              should_switch= true;
+              break;
+            }
+          }
+          if (should_switch) {
+            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            switching = true;
+          }
+        }
+      } 
+    })
 
   </script>
 </body>
