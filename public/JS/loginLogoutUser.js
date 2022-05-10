@@ -1,4 +1,18 @@
 let currentUserId = null;
+
+async function populateCardTable(){
+  const response = await fetch('/cards_collection', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user_id: currentUserId
+    }) 
+  });
+}
+
 // Update login state
 function maintainLoggedIn(userId, username) {
   console.log(userId);
@@ -8,6 +22,8 @@ function maintainLoggedIn(userId, username) {
   currentUserId = userId;
   loginPanel.innerHTML = `User Info: logged as ${username}. <a href="#" class="openBox" origin="logout" onclick="logout()">Logout</a>`;
   
+  populateCardTable();
+
 }
 
 window.onload = async function () {
@@ -23,6 +39,7 @@ window.onload = async function () {
   if (userState.success === true) {
     
     maintainLoggedIn(userState.user_id, userState.username);
+
   }
 }
 
@@ -52,6 +69,8 @@ const loginUser = async function() {
     if (result.success === true) {
       document.getElementById("login").style.display = "none";
       maintainLoggedIn(result.user_id, result.username);
+      populateCardTable();
+
     } else {
       alert("User not found or the provided email or password was incorrect. Please, try again.");
     }

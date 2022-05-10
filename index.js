@@ -141,6 +141,25 @@ express()
     }
     
   })
+  .post('/cards_collection', async(req, res) => {
+    try {
+      
+      const client = await pool.connect();
+      
+      // const sqlCheckCardExistence = await client.query(
+      //   `SELECT * FROM card WHERE user_id = ${req.body.user_id};`
+      // );
+      
+      // console.log(sqlCheckCardExistence);
+      
+      client.release();
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+    
+  })
   .post('/addToDeck', async(req,res) => {
     try {
       const client = await pool.connect();
