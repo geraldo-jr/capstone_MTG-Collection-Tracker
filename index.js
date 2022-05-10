@@ -177,15 +177,14 @@ express()
       const deckName = req.body.deck_name;
       const deckDesc = req.body.deck_desc;
       const deckFormat = req.body.deck_format;
-      const deckId = req.body.deck_id;
       const userId = req.body.user_id;
 
       
 
-      console.log(`INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
+      console.log(`INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
 
       const sqlInsert = await client.query(
-        `INSERT INTO deck (deck_id, user_id, deck_name, description, type_id) values ('${deckId}', '${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
+        `INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
 
     }

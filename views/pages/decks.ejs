@@ -72,9 +72,18 @@
     <label for="deckDesc">Description:</label>
     <input type="text" id="deckDesc" name="deckDesc"><br>
     <label for="deckFormat">Format:</label>
-    <input type="text" id="deckFormat" name="deckFormat"><br>
-    <label for="deckId">Deck ID:</label>
-    <input type="number" id="deckId" name="deckId"><br>
+    <select name="deckFormat" id="deckFormat">
+      <option value="default">Format</option>
+      <option value="standard">Standard</option>
+      <option value="modern">Modern</option>
+      <option value="vintage">Vintage</option>
+      <option value="legacy">Legacy</option>
+      <option value="pauper">Pauper</option>
+      <option value="commander">Commander</option>
+      <option value="brawl">Brawl</option>
+      <option value="historic">Historic</option>
+      <option value="pioneer">Pioneer</option>
+    </select>
     <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
   </fieldset>
 
@@ -107,7 +116,6 @@
       const newDeckName = document.getElementById('newDeckName').value;
       const deckDesc = document.getElementById('deckDesc').value;
       const deckFormat = document.getElementById('deckFormat').value;
-      const deckId = document.getElementById('deckId').value;
       const userId = currentUserId;
       console.log(userId);
 
@@ -121,7 +129,6 @@
           deck_name: newDeckName,
           deck_desc: deckDesc,
           deck_format: deckFormat,
-          deck_id: deckId,
           user_id: userId
         })
       });
