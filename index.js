@@ -48,13 +48,21 @@ express()
   })
   .get('/decks', async(req, res) => {
     const client = await pool.connect();
-    const decks = await client.query(
-      `SELECT user_id, deck_id, description, deck_name, type_id FROM deck;`
-    );
-    const locals = {
-      'decks': (decks) ? decks.rows[3] : null
-    };
-
+    if (userState.user_id === undefined) {
+      var locals = {
+        'decks': "User is not logged in"
+      };
+      
+    } else {
+      const decks = await client.query(
+        `SELECT user_id, deck_id, description, deck_name, type_id FROM deck WHERE user_id = ${userState.user_id};`
+      );
+      
+      var locals = {
+        'decks': (decks) ? decks.rows : null
+      };
+      
+    }
     res.render('pages/decks', locals);
     client.release();
   })

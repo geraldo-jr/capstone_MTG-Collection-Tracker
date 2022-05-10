@@ -84,8 +84,8 @@
     <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
     <p id="card-selected-info"></p>
     <label for="numOfCopies">Copies:</label>
-    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
-    <br>
+    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1"><br>
+     
     <input type="submit" name="addCard" value="Add Card to Deck" onclick="addCardToDeck()">
 
     <div id="display-card-options">
@@ -98,6 +98,9 @@
 
   </fieldset> <!-- end of add card element -->
   
+  <% decks.forEach(function(r) { %>
+    <p><%= r.deck_id %></p>
+  <% }); %>
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
@@ -128,7 +131,26 @@
 
     const addCardToDeck = async function() {
       const selDeck = document.getElementById('selectDeck');
+      const selCard = cardSelected;
 
+      if (!selDeck || !selCard) {
+        alert("Please, select a valid deck and a card to put into it.")
+      } else {
+              
+        const response = await fetch('/addToDeck', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            deck_id: selDeck,
+            card_id: selCard
+          })
+        });
+        
+        const result = await response.json();
+      }
     }
 
     // Fetch card info from API
