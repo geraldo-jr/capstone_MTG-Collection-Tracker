@@ -72,9 +72,18 @@
     <label for="deckDesc">Description:</label>
     <input type="text" id="deckDesc" name="deckDesc"><br>
     <label for="deckFormat">Format:</label>
-    <input type="text" id="deckFormat" name="deckFormat"><br>
-    <label for="deckId">Deck ID:</label>
-    <input type="number" id="deckId" name="deckId"><br>
+    <select name="deckFormat" id="deckFormat">
+      <option value="0">Format</option>
+      <option value="1">Standard</option>
+      <option value="2">Modern</option>
+      <option value="3">Vintage</option>
+      <option value="4">Legacy</option>
+      <option value="5">Pauper</option>
+      <option value="6">Commander</option>
+      <option value="7">Brawl</option>
+      <option value="8">Historic</option>
+      <option value="9">Pioneer</option>
+    </select>
     <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
   </fieldset>
 
@@ -84,8 +93,8 @@
     <input type="submit" name="submitCardSelection" value="Select Card" onclick="javascript:getCardInfo()"><br>
     <p id="card-selected-info"></p>
     <label for="numOfCopies">Copies:</label>
-    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
-    <br>
+    <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1"><br>
+     
     <input type="submit" name="addCard" value="Add Card to Deck" onclick="addCardToDeck()">
 
     <div id="display-card-options">
@@ -98,13 +107,15 @@
 
   </fieldset> <!-- end of add card element -->
   
+  <% decks.forEach(function(r) { %>
+    <p><%= r.deck_id %></p>
+  <% }); %>
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
       const newDeckName = document.getElementById('newDeckName').value;
       const deckDesc = document.getElementById('deckDesc').value;
       const deckFormat = document.getElementById('deckFormat').value;
-      const deckId = document.getElementById('deckId').value;
       const userId = currentUserId;
       console.log(userId);
 
@@ -118,7 +129,6 @@
           deck_name: newDeckName,
           deck_desc: deckDesc,
           deck_format: deckFormat,
-          deck_id: deckId,
           user_id: userId
         })
       });
@@ -128,7 +138,26 @@
 
     const addCardToDeck = async function() {
       const selDeck = document.getElementById('selectDeck');
+      const selCard = cardSelected;
 
+      if (!selDeck || !selCard) {
+        alert("Please, select a valid deck and a card to put into it.")
+      } else {
+              
+        const response = await fetch('/addToDeck', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            deck_id: selDeck,
+            card_id: selCard
+          })
+        });
+        
+        const result = await response.json();
+      }
     }
 
     // Fetch card info from API
