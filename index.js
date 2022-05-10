@@ -100,6 +100,51 @@ express()
       res.send("Error: " + err);
     }
   })
+  .post('/save_card', async(req, res) => {
+    try {
+      
+      const client = await pool.connect();
+      
+      const sqlCheckCardExistence = await client.query(
+        `SELECT multiverse_id FROM card WHERE multiverse_id = ${req.body.multiverseId};`
+      );
+
+      console.log(sqlCheckCardExistence.rowCount);
+
+      if (req.body.userId === null) {
+        res.send('User not logged in. Please, sign in to access your collection and add the card.');
+        console.log('User not logged in.');
+      } else if(sqlCheckCardExistence.rowCount !== 0) {
+        res.send('Card already in your collection.');
+        console.log('Card already inserted.');
+      } else {
+
+        console.log(`(${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})`);
+        
+        try {
+          const sqlInsert = await client.query(
+            `INSERT INTO card (multiverse_id, user_id, card_name, mana_cost, card_text, card_type, card_subtypes, set_name, power, toughness, card_image, copies, foiled) VALUES 
+            (${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})
+            RETURNING multiverse_id;`);
+              
+            res.send(`Card with multiver id ${req.body.multiverseId} added to your collection`);
+            
+        } catch (error) {
+          console.error(error);
+          res.send("A problem occured and card couldn't be added to your collection.");
+
+        }
+        
+      }
+    
+      client.release();
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+    
+  })
   .post('/addToDeck', async(req,res) => {
     try {
       const client = await pool.connect();
@@ -148,28 +193,6 @@ express()
       console.error(err);
       res.send("Error: " + err);
     }
-  })
-  .post('/save_card', async(req, res) => {
-    try {
-      
-      const client = await pool.connect();
-      
-      console.log(`(${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})`);
-      
-      const sqlInsert = await client.query(
-        `INSERT INTO card (multiverse_id, user_id, card_name, mana_cost, card_text, card_type, card_subtypes, set_name, power, toughness, card_image, copies, foiled) VALUES 
-        (${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})
-        RETURNING card_id;`);
-
-      res.send(sqlInsert);
-      
-      client.release();
-
-    } catch (err) {
-      console.error(err);
-      res.send("Error: " + err);
-    }
-    
   })
   .get('/db-info', async(red, res) => {
     try {
