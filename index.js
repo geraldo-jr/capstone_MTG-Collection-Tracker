@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
-const mtg = require('mtgsdk');
+const mtg = require('mtgsdk'); // MTG API SDK that enables fetching cards data
 const { render } = require('express/lib/response');
 const { connect } = require('http2');
 let userState = {};
@@ -77,6 +77,8 @@ express()
 
       const cardNameInserted = req.body.card_name;
 
+      // Searching for the card info with the input of card name provided by the user.
+      // This uses the mtg variable, which is the SDK for the API. It uses a query process to fetch the card using the name. If no card found under that name sends back a message to the front end and displays an error message to the user.
       mtg.card.where({ name: cardNameInserted})
       .then(cards => {
         if(cards[0] === undefined) {
@@ -84,6 +86,8 @@ express()
           res.send(cardNameNotFound);
 
         } else {
+          // If query is success, send the card image and name together with the card object containing all the card info to be used in the front end. 
+          // THIS CAN BE IMPROVED AND USE ON THE "cards" OBJECT TO BE USED IN THE FRONTEND.
           const locals = {
             'card_Name': (cards) ? cards[0].name : null,
             'cardImage': (cards) ? cards[0].imageUrl : null,

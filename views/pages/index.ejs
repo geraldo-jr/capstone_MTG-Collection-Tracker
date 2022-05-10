@@ -121,27 +121,55 @@
     </fieldset>
   </form>
   
-  <div class="cards_box">
-    <div id="cards_row" class="cards_row">
-      <div id="red_card" class="card">3 cost Red</div>
-      <div id="black_card" class="card">6 cost Black</div>
-      <div id="blue_card" class="card">2 cost Blue</div>
-      <div id="white_card" class="card">4 cost White</div>
-      <div id="green_card"  class="card">5 cost Green</div>
-      <div id="none_card" class="card">1 cost None</div>
+
+  <div id="card-table">
+    <div id="card-table-content">
+      <aside id="card-table-menu">
+        <ul>
+          <li>Artifact</li>
+          <li>Conspiracy</li>
+          <li>Creature</li>
+          <li>Dungeon</li>
+          <li>Enchantment</li>
+          <li>Instant</li>
+          <li>Land</li>
+          <li>Phenomenon</li>
+          <li>Plane</li>
+          <li>Planeswalker</li>
+          <li>Scheme</li>
+          <li>Sorcery</li>
+          <li>Tribal</li>
+          <li>Vanguard</li>
+        </ul>
+      </aside>
+      <section id="card-table-display">
+        
+      <div class="cards_box">
+        <div id="cards_row" class="cards_row">
+          <div id="red_card" class="card">3 cost Red</div>
+          <div id="black_card" class="card">6 cost Black</div>
+          <div id="blue_card" class="card">2 cost Blue</div>
+          <div id="white_card" class="card">4 cost White</div>
+          <div id="green_card"  class="card">5 cost Green</div>
+          <div id="none_card" class="card">1 cost None</div>
+        </div>
+      </div>
+      </section>
     </div>
-  </div>  
+  </div>
 
   <script src="/JS/loginPanels.js"></script>
   <script src="/JS/validatePassword.js"></script>
   <script>
     
+    // To store card info once users search for a card and select one from the options served by the API.
     let cardSelected;
     
     // Fetching card from API
     const getCardInfo = async function() {
       const cardName = document.getElementById('cardSelectionInput').value;
 
+      // Checks if input it's not empty. If not, fetch the API on the backend with /fetchCard method to get the card's info with the card name provided by the user.
       if (cardName.trim() === "") {
         alert("Please, insert a valid input to search for a card.")
       } else {
@@ -159,19 +187,22 @@
         
         const result = await response.json();
         
+        // Clean the element for showing if card was selected. 
         let showResultsWindow = document.getElementById('display-cards-result');
         showResultsWindow.innerHTML = "";
-
-        // Checks if card name inserted is valid. If card not found, a message with an error will be informed. Otherwise displays the image and card text
+        
+        // Checks if card name inserted is valid. If card not found, a message with an error will be informed.
         if (result.cards === undefined) {
           errorFecthingCard(showResultsWindow, "Card not found with this name.")
         } else {
           let cardsFounded = result.cards;
           
+          // Checks if the result from the seach is too big to display and prompt a message to fix in case is bigger 20 cards. Otherwise displays the image and card text
           if (cardsFounded.length >= 20) {
             errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.")            
           } else {
             
+            // Loop through the card array fetched by the api with user's input info for card name. Display's each card in the array in a popup box showing the card image and card name.
             cardsFounded.forEach(card => {
               let cardNameDisplay = document.createElement('span');
               cardNameDisplay.innerText = "Card name:" + card.name;
