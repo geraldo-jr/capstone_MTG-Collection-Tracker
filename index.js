@@ -117,38 +117,67 @@ express()
       
       const client = await pool.connect();
       
-      const sqlCheckCardExistence = await client.query(
-        `SELECT multiverse_id FROM card WHERE multiverse_id = ${req.body.multiverseId};`
-      );
-
-      console.log(sqlCheckCardExistence.rowCount);
-
+      
       if (req.body.userId === null) {
         res.send('User not logged in. Please, sign in to access your collection and add the card.');
         console.log('User not logged in.');
-      } else if(sqlCheckCardExistence.rowCount !== 0) {
-        res.send('Card already in your collection.');
-        console.log('Card already inserted.');
       } else {
-
-        console.log(`(${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})`);
+        const sqlCheckCardExistence = await client.query(
+          `SELECT multiverse_id FROM card WHERE multiverse_id = ${req.body.multiverseId} AND user_id = ${req.body.userId};`
+        );
+  
+        console.log(sqlCheckCardExistence.rowCount);
         
-        try {
-          const sqlInsert = await client.query(
-            `INSERT INTO card (multiverse_id, user_id, card_name, mana_cost, card_text, card_type, card_subtypes, set_name, power, toughness, card_image, copies, foiled) VALUES 
-            (${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})
-            RETURNING multiverse_id;`);
+        if (sqlCheckCardExistence.rowCount !== 0) {
+          res.send('Card already in your collection.');
+          console.log('Card already inserted.');
+        } else {
+
+          console.log(`(${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})`);
+          
+          try {
+            const sqlInsert = await client.query(
+              `INSERT INTO card (multiverse_id, user_id, card_name, mana_cost, card_text, card_type, card_subtypes, set_name, power, toughness, card_image, copies, foiled) VALUES 
+              (${req.body.multiverseId}, ${req.body.userId}, '${req.body.card_Name}', '${req.body.manaCost}', '${req.body.cardText}', '${req.body.cardType}', '{${req.body.cardSubtype}}', '${req.body.setName}', ${req.body.power}, ${req.body.toughness}, '${req.body.cardImage}', ${req.body.copies}, ${req.body.foiled})
+              RETURNING multiverse_id;`);
+                
+              res.send(`Card with multiver id ${req.body.multiverseId} added to your collection`);
               
-            res.send(`Card with multiver id ${req.body.multiverseId} added to your collection`);
-            
-        } catch (error) {
-          console.error(error);
-          res.send("A problem occured and card couldn't be added to your collection.");
+          } catch (error) {
+            console.error(error);
+            res.send("A problem occured and card couldn't be added to your collection.");
 
+          }
+          
         }
-        
       }
+      client.release();
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
     
+  })
+  .post('/cards_collection', async(req, res) => {
+    try {
+      
+      const client = await pool.connect();
+
+      if (req.body.user_id !== undefined) {
+        const sqlCheckCardExistence = await client.query(
+          `SELECT card_id, multiverse_id, card_name, mana_cost, card_type, card_subtypes, set_name, power, toughness, copies, foiled, card_image FROM card WHERE user_id = ${req.body.user_id};`
+        );
+                
+        const result = {
+          'saved_cards': (sqlCheckCardExistence) ? sqlCheckCardExistence.rows : null
+        };
+
+        if (result !== undefined) {
+          res.json(result);
+        }
+      }
+
       client.release();
 
     } catch (err) {
