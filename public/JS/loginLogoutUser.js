@@ -7,7 +7,7 @@ function maintainLoggedIn(userId, username) {
   let loginPanel = document.getElementById("loginPanelInfo");
 
   currentUserId = userId;
-  loginPanel.innerHTML = `User Info: logged as ${username}. <a href="#" class="openBox" origin="logout" onclick="logout()">Logout</a>`;
+  loginPanel.innerHTML = `User Info: logged as @${username}. <a href="#" class="openBox" origin="logout" onclick="logout()">Logout</a>`;
   
   populateCardTable();
 
