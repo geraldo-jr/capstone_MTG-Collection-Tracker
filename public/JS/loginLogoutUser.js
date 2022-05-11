@@ -1,18 +1,5 @@
 let currentUserId = null;
 
-async function populateCardTable(){
-  const response = await fetch('/cards_collection', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user_id: currentUserId
-    }) 
-  });
-}
-
 // Update login state
 function maintainLoggedIn(userId, username) {
   console.log(userId);

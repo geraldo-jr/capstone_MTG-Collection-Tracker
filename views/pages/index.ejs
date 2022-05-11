@@ -143,7 +143,6 @@
         </ul>
       </aside>
       <section id="card-table-display">
-        
       <div class="cards_box">
         <div id="cards_row" class="cards_row">
           <div id="red_card" class="card">3 cost Red</div>
@@ -154,10 +153,42 @@
           <div id="none_card" class="card">1 cost None</div>
         </div>
       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Multiver ID</th>
+            <th>Card Name</th>
+            <th>Mana Cost</th>
+            <th>Card Type</th>
+            <th>Card Subtypes</th>
+            <th>Set Name</th>
+            <th>Power</th>
+            <th>Toughness</th>
+            <th>Copies</th>
+            <th>Foiled</th>
+            <th>Card Image</th>
+          </tr>
+        </thead>
+        <tbody id="card-tables-body">
+          <tr id="empty-row">
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
       </section>
     </div>
   </div>
-
+  <script src="/JS/displayCardsTable.js"></script>
   <script src="/JS/loginPanels.js"></script>
   <script src="/JS/validatePassword.js"></script>
   <script>
@@ -271,6 +302,7 @@
 
         const result = await response.text();
         alert(result);
+        populateCardTable();
         console.log(response);
       }
 
