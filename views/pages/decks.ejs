@@ -83,8 +83,10 @@
       <option value="7">Brawl</option>
       <option value="8">Historic</option>
       <option value="9">Pioneer</option>
-    </select>
-    <button type="submit" id="createNewDeck" onclick="javascript:createDeck()">Create Deck</button>
+    </select><br><br>
+    <input type="submit" id="createNewDeck" onclick="javascript:createDeck()" value="Create Deck">
+
+    <p id="deckCreateMsg"></p>
   </fieldset>
 
   <fieldset class="add-card">
@@ -97,6 +99,8 @@
      
     <input type="submit" name="addCard" value="Add Card to Deck" onclick="addCardToDeck()">
 
+    
+
     <div id="display-card-options">
       <a class="close">&times;</a>
       <span><b>Select your cards:</b></span>
@@ -106,10 +110,28 @@
     </div>
 
   </fieldset> <!-- end of add card element -->
+
+  <br><br><br><br><br><br><br><br><label for="selDeck">Select Deck: </label>
+  <select name="selDeck" id="selDeck">
+    <% decks.forEach(function(r) { %>
+      <% if (decks !== null) { %>
+        <option value="<%= r.deck_name %>"><%= r.deck_name %></option>
+      <% }; %>
+    <% }); %>
+  </select>
+  <input type="submit" id="displayDeck" value="Select Deck" onclick="javascript:selDeckDisplay()">
+
+  <div id="selDeckDisplay">
+    <% deck_cards.forEach(function(r) { %>
+    <h3 id="selDeckName"><%= r.deck_name %></h3>
+    <p id="selDeckFormat"><%= r.type_id %></p>
+    <table id="deckList">
+      <th>Cards</th>
+      <td id="cardInfo"><%= r.card_id %></td>
+    </table>
+    <% }); %>
+  </div>
   
-  <% decks.forEach(function(r) { %>
-    <p><%= r.deck_id %></p>
-  <% }); %>
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
@@ -133,7 +155,8 @@
         })
       });
       
-      const result = await response.json();
+      const result = await response.text();
+      document.getElementById('deckCreateMsg').innerHTML = result;
     }
 
     const addCardToDeck = async function() {
@@ -224,6 +247,27 @@
       displayErrorMessage.innerText = errorMessage;
       showResultsWindow.appendChild(displayErrorMessage);
     }
+/*
+    const selDeckDisplay = async function() {
+      const selDeckName = document.getElementById('selDeckName');
+      const selDeckFormat = document.getElementById('selDeckFormat');
+      const cardInfo = document.getElementById('cardInfo');
+
+      if (selDeck !== null) {
+        const response = await fetch('/displayDeck', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            deck_name: selDeckName,
+            type_id: selDeckFormat,
+            card_id: 
+          })
+        });
+    }
+    */
   </script>
   <script src="/JS/loginPanels.js"></script>
 </body>

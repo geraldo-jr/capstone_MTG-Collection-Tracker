@@ -57,9 +57,17 @@ express()
       const decks = await client.query(
         `SELECT user_id, deck_id, description, deck_name, type_id FROM deck WHERE user_id = ${userState.user_id};`
       );
+      const deck_cards = await client.query(
+        `SELECT deck_id, card_id FROM deck_card;`
+      );
+      const cards = await client.query(
+        `SELECT * FROM card;`
+      )
       
       var locals = {
-        'decks': (decks) ? decks.rows : null
+        'decks': (decks) ? decks.rows : null,
+        'cards': (cards) ? cards.rows : null,
+        'deck_cards': (deck_cards) ? deck_cards.rows : null
       };
       
     }
@@ -160,7 +168,7 @@ express()
       );
 
       const result = {
-        'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
+        'respose': (sqlInsert) ? (sqlInsert.rows) : null
       };
       res.set({
         'Content-Type': 'application/json'
@@ -191,13 +199,15 @@ express()
         `INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
 
+      res.send(`${deckName} has been created.`);
+      client.release();
     }
     catch (err) {
       console.error(err);
       res.send("Error: " + err);
     }
   })
-  .get('/db-info', async(red, res) => {
+  .get('/db-info', async(req, res) => {
     try {
       const client = await pool.connect();
 			const tables = await client.query(
