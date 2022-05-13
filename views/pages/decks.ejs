@@ -160,7 +160,7 @@
     }
 
     const addCardToDeck = async function() {
-      const selDeck = document.getElementById('selectDeck');
+      const selDeck = document.getElementById('selDeck');
       const selCard = cardSelected;
 
       if (!selDeck || !selCard) {
@@ -247,7 +247,7 @@
       displayErrorMessage.innerText = errorMessage;
       showResultsWindow.appendChild(displayErrorMessage);
     }
-/*
+
     const selDeckDisplay = async function() {
       const selDeckName = document.getElementById('selDeckName');
       const selDeckFormat = document.getElementById('selDeckFormat');
@@ -263,11 +263,15 @@
           body: JSON.stringify({
             deck_name: selDeckName,
             type_id: selDeckFormat,
-            card_id: 
+            card_id: cardInfo
+            // change to deck_id
+            //
+            // Add /displayDeck in index.js to select card info where deck id matches the card.
           })
         });
+      }
     }
-    */
+    
   </script>
   <script src="/JS/loginPanels.js"></script>
 </body>
