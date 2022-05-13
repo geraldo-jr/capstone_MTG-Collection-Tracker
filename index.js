@@ -89,16 +89,12 @@ express()
       // This uses the mtg variable, which is the SDK for the API. It uses a query process to fetch the card using the name. If no card found under that name sends back a message to the front end and displays an error message to the user.
       mtg.card.where({ name: cardNameInserted})
       .then(cards => {
-        if(cards[0] === undefined) {
-          let cardNameNotFound = {'cardSelected': '"' + cardNameInserted + '"' + " is not a valid card name"};
-          res.send(cardNameNotFound);
-
+        
+        if (cards.length === 0) {
+          res.send(cards);
         } else {
           // If query is success, send the card image and name together with the card object containing all the card info to be used in the front end. 
-          // THIS CAN BE IMPROVED AND USE ON THE "cards" OBJECT TO BE USED IN THE FRONTEND.
           const locals = {
-            'card_Name': (cards) ? cards[0].name : null,
-            'cardImage': (cards) ? cards[0].imageUrl : null,
             'cards': (cards) ? cards : null
           };
 
@@ -118,7 +114,7 @@ express()
       const client = await pool.connect();
       
       
-      if (req.body.userId === null) {
+      if (req.body.userId === null || req.body.userId === undefined || req.body.userId === NaN) {
         res.send('User not logged in. Please, sign in to access your collection and add the card.');
         console.log('User not logged in.');
       } else {
