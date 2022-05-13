@@ -34,19 +34,21 @@
             <div class="openedSignupBox">
               <h3>Create New Account</h3>
               <div>
-                <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
-                <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
-                <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required><br>
-                <label for="email">Email*: </label><input type="email" id="email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
-                <label for="pass">Password*: </label> <input type="password" id="pass" name="password" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
-                <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
-                <div id="password-message">
-                  <h3>Password must contain the following:</h3>
-                  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-                  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-                  <p id="number" class="invalid">A <b>number</b></p>
-                  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                </div>
+                <form action="/">
+                  <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
+                  <label for="last_name">Last Name: </label><input type="text" id="last_name" name="last_name" placeholder="Insert Last Name"><br>
+                  <label for="username">@Username*: </label><input type="text" id="username" name="username" placeholder="NewCoolUsername" required="true"><br>
+                  <label for="email">Email*: </label><input type="email" id="email" placeholder="Insert Your Email" size="30" required="true"><br>
+                  <label for="pass">Password*: </label> <input type="password" id="pass" name="password" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="true"><br>
+                  <button type="submit" onclick="javascript:createNewUser()">Create New User Account</button>
+                  <div id="password-message">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -126,20 +128,21 @@
     <div id="card-table-content">
       <aside id="card-table-menu">
         <ul>
-          <li>Artifact</li>
-          <li>Conspiracy</li>
-          <li>Creature</li>
-          <li>Dungeon</li>
-          <li>Enchantment</li>
-          <li>Instant</li>
-          <li>Land</li>
-          <li>Phenomenon</li>
-          <li>Plane</li>
-          <li>Planeswalker</li>
-          <li>Scheme</li>
-          <li>Sorcery</li>
-          <li>Tribal</li>
-          <li>Vanguard</li>
+          <li onclick="showCardsByTypes(this)">All</li>
+          <li onclick="showCardsByTypes(this)">Artifact</li>
+          <li onclick="showCardsByTypes(this)">Conspiracy</li>
+          <li onclick="showCardsByTypes(this)">Creature</li>
+          <li onclick="showCardsByTypes(this)">Dungeon</li>
+          <li onclick="showCardsByTypes(this)">Enchantment</li>
+          <li onclick="showCardsByTypes(this)">Instant</li>
+          <li onclick="showCardsByTypes(this)">Land</li>
+          <li onclick="showCardsByTypes(this)">Phenomenon</li>
+          <li onclick="showCardsByTypes(this)">Plane</li>
+          <li onclick="showCardsByTypes(this)">Planeswalker</li>
+          <li onclick="showCardsByTypes(this)">Scheme</li>
+          <li onclick="showCardsByTypes(this)">Sorcery</li>
+          <li onclick="showCardsByTypes(this)">Tribal</li>
+          <li onclick="showCardsByTypes(this)">Vanguard</li>
         </ul>
       </aside>
       <section id="card-table-display">
@@ -153,7 +156,7 @@
           <div id="none_card" class="card">1 cost None</div>
         </div>
       </div>
-      <table>
+      <table id="myTable">
         <thead>
           <tr>
             <th>Multiver ID</th>
@@ -167,6 +170,8 @@
             <th>Copies</th>
             <th>Foiled</th>
             <th>Card Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody id="card-tables-body">
@@ -223,14 +228,14 @@
         showResultsWindow.innerHTML = "";
         
         // Checks if card name inserted is valid. If card not found, a message with an error will be informed.
-        if (result.cards === undefined) {
-          errorFecthingCard(showResultsWindow, "Card not found with this name.")
+        if (result.length === 0) {
+          errorFecthingCard(showResultsWindow, "Card not found with this name.");
         } else {
-          let cardsFounded = result.cards;
+          const cardsFounded = result.cards;
           
           // Checks if the result from the seach is too big to display and prompt a message to fix in case is bigger 20 cards. Otherwise displays the image and card text
-          if (cardsFounded.length >= 20) {
-            errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.")            
+          if (cardsFounded.length >= 30) {
+            errorFecthingCard(showResultsWindow, "Too many cards were founded with this name. Please, provide a specific name for the card.");
           } else {
             
             // Loop through the card array fetched by the api with user's input info for card name. Display's each card in the array in a popup box showing the card image and card name.
@@ -248,8 +253,6 @@
                 cardSelected = card;
               };
             });
-
-            console.log(result.cards);
           }
         }
         document.getElementById('display-card-options').style.display = "block";
