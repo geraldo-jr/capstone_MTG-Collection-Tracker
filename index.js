@@ -271,28 +271,44 @@ express()
       const userEmail = req.body.email;
       const userFirst_name = req.body.first_name;
       const userLast_name = req.body.last_name;
+
+      const checkEmailExistence = await client.query(
+        `SELECT email FROM users WHERE email = '${userEmail}';`);
       
-      const sqlInsert = await client.query(
-        `INSERT INTO users (password, username, email, first_name, last_name)
-        VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
-        RETURNING user_id, username;`);
-
-      const result = {
-        'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
-      };
-
-      userState = {
-        'success': true,
-        'username': sqlInsert.rows[0].username,
-        'user_id': sqlInsert.rows[0].user_id
-      };
+      const checkUsernameExistence = await client.query(
+        `SELECT username FROM users WHERE username = '${userUsername}';`);
+  
+      console.log(checkEmailExistence.rowCount);
       
-      console.log(userState);
+      if (checkEmailExistence.rowCount !== 0) {
+        userState = {
+          'success': false,
+          'message': `Email ${userEmail} already registered. Please, use another email to create your account.`
+        };
+      } else if (checkUsernameExistence.rowCount !== 0) {
+        userState = {
+          'success': false,
+          'message': `Usernamte ${userUsername} already registered. Please, use another Username to create your account.`
+        };
+      } else {
 
-      res.set({
-        'Content-Type': 'application/json'
-      });
-      res.json({ requestBody: result });
+        const sqlInsert = await client.query(
+          `INSERT INTO users (password, username, email, first_name, last_name)
+          VALUES ('${userPassword}', '${userUsername}', '${userEmail}', '${userFirst_name}', '${userLast_name}')
+          RETURNING user_id, username;`);
+
+        // const result = {
+        //   'respose': (sqlInsert) ? (sqlInsert.rows[0]) : null
+        // };
+
+        userState = {
+          'success': true,
+          'username': sqlInsert.rows[0].username,
+          'user_id': sqlInsert.rows[0].user_id
+        };
+      }
+      
+      res.json(userState);
 
       client.release();
     } catch (err) {
@@ -336,12 +352,7 @@ express()
   })
   .post('/logout_user', async(req, res) =>{
     
-    // console.log(`User ${userState.username}logged out`);
-
     userState = {'success': false};
-
-    // console.log(userState);
-
     res.send('200');
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));

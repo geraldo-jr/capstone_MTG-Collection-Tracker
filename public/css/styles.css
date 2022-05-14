@@ -75,7 +75,6 @@ header {
   color: #555;
 }
 .signup-form > a {
-  color: #555;
   display: block;
   padding: 0 0 5px;
 }
@@ -111,7 +110,7 @@ header {
   cursor: pointer;
 }
 .close {
-  color: rgb(207, 206, 206);
+  color: whitesmoke;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -144,7 +143,7 @@ header {
 .valid::before {
   position: relative;
   left: -5px;
-  content: '🗸';
+  content: '\2713';
 }
 /* Add a red text color and an "x" icon when the requirements are wrong */
 .invalid {
