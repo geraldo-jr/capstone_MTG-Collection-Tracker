@@ -5,6 +5,7 @@ const { Pool } = require('pg');
 const mtg = require('mtgsdk'); // MTG API SDK that enables fetching cards data
 const { render } = require('express/lib/response');
 const { connect } = require('http2');
+const { resolveSoa } = require('dns');
 let userState = {};
 
 
@@ -231,6 +232,23 @@ express()
       console.error(err);
       res.send("Error: " + err);
     }
+  })
+  .post('/displayDeck', async(req, res) => {
+    try {
+      const client = await pool.connect();
+      const selDeckId = req.body.deck_id;
+
+      const deckCards = `SELECT * FROM deck_card WHERE deck_id = '${selDeckId}';`
+
+      res.json(deckCards);
+      client.release();
+
+    } catch (err) {
+      console.error(err);
+      res.send("Error: " + err);
+    }
+    
+
   })
   .get('/db-info', async(req, res) => {
     try {

@@ -115,23 +115,23 @@
   <select name="selDeck" id="selDeck">
     <% decks.forEach(function(r) { %>
       <% if (decks !== null) { %>
-        <option value="<%= r.deck_name %>"><%= r.deck_name %></option>
+        <option value="<%= r.deck_id %>"><%= r.deck_name %></option>
       <% }; %>
     <% }); %>
   </select>
   <input type="submit" id="displayDeck" value="Select Deck" onclick="javascript:selDeckDisplay()">
 
   <div id="selDeckDisplay">
-    <% deck_cards.forEach(function(r) { %>
-    <h3 id="selDeckName"><%= r.deck_name %></h3>
-    <p id="selDeckFormat"><%= r.type_id %></p>
+    <h3 id="selDeckName"></h3>
+    <p id="selDeckFormat"></p>
     <table id="deckList">
       <th>Cards</th>
-      <td id="cardInfo"><%= r.card_id %></td>
+      <% deck_cards.forEach(function(r) { %>
+        <td id="cardInfo"><%= deck_cards.deck_id %></td>
+      <% }); %>
     </table>
-    <% }); %>
   </div>
-  
+
   <script>
     // Create a new deck and add it to the database
     const createDeck = async function() {
@@ -156,7 +156,8 @@
       });
       
       const result = await response.text();
-      document.getElementById('deckCreateMsg').innerHTML = result;
+      const deckMsg = document.getElementById('deckCreateMsg');
+      deckMsg.innerHTML = result;
     }
 
     const addCardToDeck = async function() {
@@ -249,9 +250,8 @@
     }
 
     const selDeckDisplay = async function() {
-      const selDeckName = document.getElementById('selDeckName');
-      const selDeckFormat = document.getElementById('selDeckFormat');
-      const cardInfo = document.getElementById('cardInfo');
+      const selDeckId = document.getElementById('selDeck');
+
 
       if (selDeck !== null) {
         const response = await fetch('/displayDeck', {
@@ -261,15 +261,19 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            deck_name: selDeckName,
-            type_id: selDeckFormat,
-            card_id: cardInfo
+            deck_id: selDeckId,
+            
             // change to deck_id
             //
             // Add /displayDeck in index.js to select card info where deck id matches the card.
           })
         });
+
+        const result = await response.json();
+
       }
+      
+
     }
     
   </script>
