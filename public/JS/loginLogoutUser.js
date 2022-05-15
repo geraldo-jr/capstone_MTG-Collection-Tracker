@@ -2,10 +2,9 @@ let currentUserId = null;
 
 // Update login state
 function maintainLoggedIn(userId, username) {
-  console.log(userId);
-  console.log(userId + " " + username);
   let loginPanel = document.getElementById("loginPanelInfo");
 
+  // console.log(userId + " " + username);
   currentUserId = userId;
   loginPanel.innerHTML = `User Info: logged as @${username}. <a href="#" class="openBox" origin="logout" onclick="logout()">Logout</a>`;
   
@@ -102,14 +101,17 @@ const createNewUser = async function(id) {
           last_name: uLastName
         })
       });
+      
       const result = await response.json();
-      console.log(result.respose);
-      console.log(result.requestBody);
-      console.log(result.requestBody.respose);
-      maintainLoggedIn(result.requestBody.respose.user_id, result.requestBody.respose.username);
 
-      document.getElementById("signup").style.display = "none";
-      alert("New user succesfully created.")
+      if (result.success === true) {
+        maintainLoggedIn(result.user_id, result.username);
+
+        document.getElementById("signup").style.display = "none";
+        alert("New user succesfully created.");
+      } else {
+        alert(result.message);
+      }
     }
   }
 
@@ -117,10 +119,6 @@ const createNewUser = async function(id) {
 
 // User's logout from server and refresh page
 const logout = async function() {
-  // let loginPanel = document.getElementById("loginPanelInfo");
-
-  // currentUserId = 0;
-  // loginPanel.innerHTML = `Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account.</a>`;
 
   const response = await fetch('/logout_user', {
     method: 'POST', 

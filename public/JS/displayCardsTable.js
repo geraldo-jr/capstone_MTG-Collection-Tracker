@@ -54,6 +54,8 @@ async function populateCardTable(){
     row.append(tdEdit, tdDelete);
   }
 }
+
+// Enables the side menu for the card table to filter the table showing cards by types when user clicks on the type of cards that he as as options. Also show all the cards when clicking on "All"
 function showCardsByTypes(e) {  
   var table, tableRows, td, textValue;
   table = document.getElementById("myTable");
@@ -77,6 +79,4 @@ function showCardsByTypes(e) {
     }
 
   }
-    
-  // Loop through the tables records on screen and filter each by e.innerText that was clicked and display only the ones that match, or display all if option "All" was clicked. Example: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
 }
