@@ -502,11 +502,9 @@
           cards = list.getElementsByTagName("TR");
           for (i = 0; i < (cards.length - 1); i++) {
             should_switch = false;
-            var str1 = cards[i].getElementsByTagName('TD')[2].tostring();
-            var str2 = cards[i+1].getElementsByTagName('TD')[2].tostring();
-            var cleaned1 = str1.replace(/[0-9]/g, '');
-            var cleaned2 = str2.replace(/[0-9]/g, '');
-            if (cleaned1 > cleaned2){
+            var str1 = cards[i].getElementsByTagName('TD')[2];
+            var str2 = cards[i+1].getElementsByTagName('TD')[2];
+            if (str1 > str2){
               should_switch= true;
               break;
             }
