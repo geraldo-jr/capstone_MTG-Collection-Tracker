@@ -167,7 +167,7 @@
       const selCard = cardSelected;
 
       if (!selDeck || !selCard) {
-        alert("Please, select a valid deck and a card to put into it.")
+        alertBox("Please, select a valid deck and a card to put into it.")
       } else {
               
         const response = await fetch('/addToDeck', {
@@ -191,7 +191,7 @@
       const cardName = document.getElementById('cardSelectionInput').value;
 
       if (cardName.trim() === "") {
-        alert("Please, insert a valid input to search for a card.")
+        alertBox("Please, insert a valid input to search for a card.")
       } else {
               
         const response = await fetch('/fetchCard', {

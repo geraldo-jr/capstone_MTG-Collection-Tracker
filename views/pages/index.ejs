@@ -27,11 +27,11 @@
 
     <div class="login-panel">
       <h4 id="loginPanelInfo" >Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account</a></h4>
-      <div id="signup" class="signup-box">
+      <div id="signup" class="popup-box">
         <div class="box-content">
-          <div class="signup-form">
+          <div class="popup-form">
             <a class="close">&times;</a>
-            <div class="openedSignupBox">
+            <div class="openedPopupBox">
               <h3>Create New Account</h3>
               <div>
                 <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
@@ -52,16 +52,29 @@
           </div>
         </div>
       </div>
-      <div id="login" class="signup-box">
+      <div id="login" class="popup-box">
         <div class="box-content">
-          <div class="signup-form">
+          <div class="popup-form">
             <a class="close">&times;</a>
-            <div class="openedSignupBox">
+            <div class="openedPopupBox">
               <h3>Create New Account</h3>
               <div>
                 <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
                 <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
                 <button type="submit" onclick="javascript:loginUser()">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="alert-popup" class="popup-box">
+        <div class="box-content">
+          <div class="popup-form">
+            <a class="close">&times;</a>
+            <div class="openedPopupBox">
+              <div>
+                <p id="alert-message"></p>
+                <button type="close" id="close-alert-button" onclick="javascript:alertBox()">Ok</button>
               </div>
             </div>
           </div>
@@ -106,7 +119,9 @@
       <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
       <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type
       <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br>
+      <input type="button" id="check" onclick="check_uncheck()" value="Select all">
       <input type="submit" value="Filter Table">
+      <span id="filter_error"style="color:red; display:none;">Please pick a filter</span>
     </fieldset>
   </form>
 
@@ -207,7 +222,7 @@
 
       // Checks if input it's not empty. If not, fetch the API on the backend with /fetchCard method to get the card's info with the card name provided by the user.
       if (cardName.trim() === "") {
-        alert("Please, insert a valid input to search for a card.")
+        alertBox("Please, insert a valid input to search for a card.")
       } else {
               
         const response = await fetch('/fetchCard', {
@@ -270,7 +285,7 @@
     const addCardToCollection = async function() {
       
       if (cardSelected === undefined) {
-        alert("Select a card to add it to your collection.");
+        alertBox("Select a card to add it to your collection.");
       } else {
         
         const response = await fetch('save_card', {
@@ -304,7 +319,7 @@
         });
 
         const result = await response.text();
-        alert(result);
+        alertBox(result);
         populateCardTable();
         console.log(response);
       }
@@ -316,6 +331,7 @@
 
     form1.addEventListener('submit', (event) => {
       event.preventDefault();
+      var popup = document.getElementById('filter_error');
       var red_mana = form1.elements[1];
       var black_mana = form1.elements[2];
       var blue_mana = form1.elements[3];
@@ -352,6 +368,7 @@
         } else {
           document.getElementById('none_card').style.display="none";
         }
+        popup.style.display="none";
       } else if (black_mana.checked){
         if (document.getElementById('black_card').style.display="none"){
           document.getElementById('black_card').style.display="table-cell";
@@ -377,6 +394,7 @@
           document.getElementById('none_card').style.display="none";
         }
         document.getElementById('red_card').style.display="none";
+        popup.style.display="none";
       } else if (blue_mana.checked){
         if (document.getElementById('blue_card').style.display="none"){
           document.getElementById('blue_card').style.display="table-cell";
@@ -398,6 +416,7 @@
         }
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
+        popup.style.display="none";
       } else if (white_mana.checked){
         if (document.getElementById('white_card').style.display="none"){
           document.getElementById('white_card').style.display="table-cell";
@@ -415,6 +434,7 @@
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
+        popup.style.display="none";
       } else if (green_mana.checked){
         if (document.getElementById('green_card').style.display="none"){
           document.getElementById('green_card').style.display="table-cell";
@@ -428,6 +448,7 @@
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
+        popup.style.display="none";
       } else if (none_mana.checked){
         if (document.getElementById('none_card').style.display="none"){
           document.getElementById('none_card').style.display="table-cell";
@@ -437,13 +458,9 @@
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
         document.getElementById('green_card').style.display="none";
+        popup.style.display="none";
       } else {
-        document.getElementById('red_card').style.display="none";
-        document.getElementById('black_card').style.display="none";
-        document.getElementById('blue_card').style.display="none";
-        document.getElementById('white_card').style.display="none";
-        document.getElementById('green_card').style.display="none";
-        document.getElementById('none_card').style.display="none";
+        popup.style.display="inline";
       }
     });
 
@@ -457,7 +474,7 @@
       switching = true
 
       if (choice.value === "Sort") {
-        alert("Please pick an option to sort by.")
+        alertBox("Please pick an option to sort by.")
       } else if (choice.value === "Mana cost"){
         while (switching) {
           switching = false;
@@ -500,6 +517,23 @@
         }
       } 
     })
+
+    function check_uncheck() {
+      var checkbox = document.getElementsByName('card_type');
+      var button = document.getElementById('check');
+      if(checkbox[1].checked){
+        for (var checkbox of checkbox) {
+          checkbox.checked = false;
+          button.value= 'Select all';
+        }
+      } else {
+        for (var checkbox of checkbox) {
+          checkbox.checked = true;
+          button.value= 'Unselect all';
+        }
+      }
+      
+    }
 
   </script>
 </body>

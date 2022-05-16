@@ -35,7 +35,7 @@ const loginUser = async function() {
   const uPasswordLogin = document.getElementById("login-password").value;
   
   if (uEmailLogin === "" || uPasswordLogin === "") {
-    alert("Please, insert a valid username, email and password to sign in.");
+    alertBox("Please, insert a valid username, email and password to sign in.");
   } else {
     const response = await fetch('/login_user', {
       method: 'POST',
@@ -58,7 +58,7 @@ const loginUser = async function() {
       populateCardTable();
 
     } else {
-      alert("User not found or the provided email or password was incorrect. Please, try again.");
+      alertBox("User not found or the provided email or password was incorrect. Please, try again.");
     }
   }
 }
@@ -82,10 +82,10 @@ const createNewUser = async function(id) {
   const uPassword = document.querySelector('#pass').value;
   
   if (uUsername.trim() === "" || !ValidateEmail(uEmail) || uPassword.trim() === "") {
-      alert("Please, insert a valid username, email and password to create your new account");
+    alertBox("Please, insert a valid username, email and password to create your new account");
   } else {
     if (letter.classList.value !== "valid" || capital.classList.value !== "valid" || number.classList.value !== "valid" || length.classList.value !== "valid") {
-      alert("Invalid password. Please, create a password that contains 8 charaters and at lease one uppercase letter, one lowercase letter, a symbol and a number.");
+      alertBox("Invalid password. Please, create a password that contains 8 charaters and at lease one uppercase letter, one lowercase letter, a symbol and a number.");
     } else {      
       const response = await fetch('/signup_user', {
         method: 'POST',
@@ -108,9 +108,9 @@ const createNewUser = async function(id) {
         maintainLoggedIn(result.user_id, result.username);
 
         document.getElementById("signup").style.display = "none";
-        alert("New user succesfully created.");
+        alertBox("New user succesfully created.");
       } else {
-        alert(result.message);
+        alertBox(result.message);
       }
     }
   }
@@ -131,6 +131,6 @@ const logout = async function() {
   if (response.status === 200) {
     location.reload();
   } else {
-    alert("Server not responding. Please, refresh page.")
+    alertBox("Server not responding. Please, refresh page.")
   }
 };
