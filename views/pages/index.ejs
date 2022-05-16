@@ -504,8 +504,8 @@
             should_switch = false;
             var str1 = cards[i].getElementsByTagName('TD')[2];
             var str2 = cards[i+1].getElementsByTagName('TD')[2];
-            var cleaned1 = str1.replace(/[0-9],/g, '');
-            var cleaned2 = str2.replace(/[0-9],/g, '');
+            var cleaned1 = str1.replace(/[0-9]/g, '');
+            var cleaned2 = str2.replace(/[0-9]/g, '');
             if (cleaned1 > cleaned2){
               should_switch= true;
               break;
