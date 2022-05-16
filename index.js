@@ -238,9 +238,16 @@ express()
       const client = await pool.connect();
       const selDeckId = req.body.deck_id;
 
-      const deckCards = `SELECT * FROM deck_card WHERE deck_id = '${selDeckId}';`
+      const deckCards = `SELECT deck_id, card_id FROM deck_card WHERE deck_id = '${selDeckId}';`
 
-      res.json(deckCards);
+      const result = {
+        'deck_list': (deckCards) ? deckCards.rows : null
+      };
+
+      if (result != undefined) {
+        res.json(result);
+      }
+      
       client.release();
 
     } catch (err) {

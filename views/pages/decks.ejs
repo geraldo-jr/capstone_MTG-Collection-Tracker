@@ -126,9 +126,11 @@
     <p id="selDeckFormat"></p>
     <table id="deckList">
       <th>Cards</th>
-      <% deck_cards.forEach(function(r) { %>
-        <td id="cardInfo"><%= deck_cards.deck_id %></td>
-      <% }); %>
+      <tr>
+        <% deck_cards.forEach(function(r) { %>
+          <td id="cardInfo"><%= deck_cards.deck_id %></td>
+        <% }); %>
+      </tr>
     </table>
   </div>
 
@@ -267,6 +269,7 @@
         });
 
         const result = await response.json();
+        console.log(result);
 
       }
       
