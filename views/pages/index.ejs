@@ -470,7 +470,7 @@
       event.preventDefault();
       var choice = form2.elements[1];
       var list, i, switching, b, should_switch;
-      list = document.getElementById("cards_row");
+      list = document.getElementById("card-table-rows");
       switching = true
 
       if (choice.value === "Sort") {
@@ -478,11 +478,12 @@
       } else if (choice.value === "Mana cost"){
         while (switching) {
           switching = false;
-          b = list.getElementsByTagName("DIV");
-          for (i = 0; i < (b.length - 1); i++) {
+          cards = list.getElementsByTagName("TR");
+          
+          for (i = 0; i < (cards.length - 1); i++) {
             should_switch = false;
-            var str1 = b[i].innerHTML.toString();
-            var str2 = b[i+1].innerHTML.toString();
+            var str1 = cards[i].getElementsByTagName("TD")[1];
+            var str2 = cards[i+1].getElementsByTagName("TD")[1];
             var matches1 = str1.match(/(\d+)/)[0];
             var matches2 = str2.match(/(\d+)/)[0];
             if (matches1 > matches2){
@@ -491,27 +492,27 @@
             }
           }
           if (should_switch) {
-            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
             switching = true;
           }
         }
       } else if (choice.value === "Name"){
         while (switching) {
           switching = false;
-          b = list.getElementsByTagName("DIV");
-          for (i = 0; i < (b.length - 1); i++) {
+          cards = list.getElementsByTagName("TR");
+          for (i = 0; i < (cards.length - 1); i++) {
             should_switch = false;
-            var str1 = b[i].innerHTML.toString();
-            var str2 = b[i+1].innerHTML.toString();
-            var cleaned1 = str1.replace(/[0-9]/g, '');
-            var cleaned2 = str2.replace(/[0-9]/g, '');
+            var str1 = cards[i].getElementsByTagName('TD')[2];
+            var str2 = cards[i+1].getElementsByTagName('TD')[2];
+            var cleaned1 = str1.replace(/[0-9],/g, '');
+            var cleaned2 = str2.replace(/[0-9],/g, '');
             if (cleaned1 > cleaned2){
               should_switch= true;
               break;
             }
           }
           if (should_switch) {
-            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
             switching = true;
           }
         }
