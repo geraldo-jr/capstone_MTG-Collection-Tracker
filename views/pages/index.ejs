@@ -94,9 +94,11 @@
     <p id="card-info">Card Selected: <span id="card-selected-info">-</span></p>
     <label for="numOfCopies">Copies:</label>
     <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
-    <span>Foiled:</span>
-    <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
-    <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
+    <div class="foiled-radio-options">
+      <span>Foiled:</span>
+      <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
+      <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
+    </div>
     <br>
     
     <input type="submit" name="addCard" value="Add Card" onclick="addCardToCollection()">
