@@ -27,11 +27,11 @@
 
     <div class="login-panel">
       <h4 id="loginPanelInfo" >Please <a href="#" class="openBox" origin="login">login</a> or <a href="#" class="openBox" origin="signup">create an account</a></h4>
-      <div id="signup" class="signup-box">
+      <div id="signup" class="popup-box">
         <div class="box-content">
-          <div class="signup-form">
+          <div class="popup-form">
             <a class="close">&times;</a>
-            <div class="openedSignupBox">
+            <div class="openedPopupBox">
               <h3>Create New Account</h3>
               <div>
                 <label for="first_name">First Name: </label> <input type="text" id="first_name" name="first_name" placeholder="Insert First Name"><br> 
@@ -52,16 +52,29 @@
           </div>
         </div>
       </div>
-      <div id="login" class="signup-box">
+      <div id="login" class="popup-box">
         <div class="box-content">
-          <div class="signup-form">
+          <div class="popup-form">
             <a class="close">&times;</a>
-            <div class="openedSignupBox">
+            <div class="openedPopupBox">
               <h3>Create New Account</h3>
               <div>
                 <label for="login-email">Email*: </label><input type="email" id="login-email" pattern=".+@globex\.com" placeholder="Insert Your Email" size="30" required><br>
                 <label for="login-password">Password* (8 characters minimum): </label> <input type="password" id="login-password" name="password" minlength="8" required><br>
                 <button type="submit" onclick="javascript:loginUser()">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="alert-popup" class="popup-box">
+        <div class="box-content">
+          <div class="popup-form">
+            <a class="close">&times;</a>
+            <div class="openedPopupBox">
+              <div>
+                <p id="alert-message"></p>
+                <button type="close" id="close-alert-button" onclick="javascript:alertBox()">Ok</button>
               </div>
             </div>
           </div>
@@ -207,7 +220,7 @@
 
       // Checks if input it's not empty. If not, fetch the API on the backend with /fetchCard method to get the card's info with the card name provided by the user.
       if (cardName.trim() === "") {
-        alert("Please, insert a valid input to search for a card.")
+        alertBox("Please, insert a valid input to search for a card.")
       } else {
               
         const response = await fetch('/fetchCard', {
@@ -270,7 +283,7 @@
     const addCardToCollection = async function() {
       
       if (cardSelected === undefined) {
-        alert("Select a card to add it to your collection.");
+        alertBox("Select a card to add it to your collection.");
       } else {
         
         const response = await fetch('save_card', {
@@ -304,7 +317,7 @@
         });
 
         const result = await response.text();
-        alert(result);
+        alertBox(result);
         populateCardTable();
         console.log(response);
       }
@@ -457,7 +470,7 @@
       switching = true
 
       if (choice.value === "Sort") {
-        alert("Please pick an option to sort by.")
+        alertBox("Please pick an option to sort by.")
       } else if (choice.value === "Mana cost"){
         while (switching) {
           switching = false;

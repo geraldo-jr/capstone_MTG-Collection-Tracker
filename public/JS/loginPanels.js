@@ -16,7 +16,7 @@ boxAnchor.forEach(function (btn) {
 let closeBtn = [...document.querySelectorAll(".close")];
 closeBtn.forEach(function (btn) {
   btn.onclick = function() {
-    let floaringBox = btn.closest(".signup-box");
+    let floaringBox = btn.closest(".popup-box");
     let floaringSelectCardBox = btn.closest("#display-card-options");
     if (floaringSelectCardBox === null) {
       floaringBox.style.display = "none";
@@ -28,7 +28,20 @@ closeBtn.forEach(function (btn) {
 
 // Closes modal when clicked outside the box
 window.onclick = function (event) {
-  if (event.target.className === "signup-box") {
+  if (event.target.className === "popup-box") {
     event.target.style.display = "none";
   }
 };
+
+// Shows and close alert box for messages
+function alertBox(message) {
+  let modalBox = document.getElementById("alert-popup");
+  let pInModalBox = document.querySelector("#alert-message");
+  
+  if (message !== undefined) {
+    pInModalBox.innerText = message;
+    modalBox.style.display = "block";
+  } else {
+    modalBox.style.display = "none";
+  }
+}
