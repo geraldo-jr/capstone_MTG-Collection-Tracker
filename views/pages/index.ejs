@@ -119,6 +119,7 @@
       <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
       <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type
       <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br>
+      <input type="button" id="check" onclick="check_uncheck()" value="Select all">
       <input type="submit" value="Filter Table">
     </fieldset>
   </form>
@@ -513,6 +514,23 @@
         }
       } 
     })
+
+    function check_uncheck() {
+      var checkbox = document.getElementsByName('card_type');
+      var button = document.getElementById('check');
+      if(checkbox[1].checked){
+        for (var checkbox of checkbox) {
+          checkbox.checked = false;
+          button.value= 'Select all';
+        }
+      } else {
+        for (var checkbox of checkbox) {
+          checkbox.checked = true;
+          button.value= 'Unselect all';
+        }
+      }
+      
+    }
 
   </script>
 </body>
