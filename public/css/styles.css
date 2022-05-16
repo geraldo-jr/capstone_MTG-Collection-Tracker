@@ -360,6 +360,30 @@ table {
 .about p {
   padding-left: 10px;
 }
+
+.help {
+  background-color: #A6A6A6;
+}
+
+.help h1 {
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #555;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.help h2 {
+  padding-left: 10px;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+
+.help p {
+  padding-left: 10px;
+}
 @media only screen and (max-width: 700px) {
   html {
     padding: .3rem;
