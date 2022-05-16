@@ -121,6 +121,7 @@
       <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br>
       <input type="button" id="check" onclick="check_uncheck()" value="Select all">
       <input type="submit" value="Filter Table">
+      <span id="filter_error"style="color:red; display:none;">Please pick a filter</span>
     </fieldset>
   </form>
 
@@ -330,6 +331,7 @@
 
     form1.addEventListener('submit', (event) => {
       event.preventDefault();
+      var popup = document.getElementById('filter_error');
       var red_mana = form1.elements[1];
       var black_mana = form1.elements[2];
       var blue_mana = form1.elements[3];
@@ -366,6 +368,7 @@
         } else {
           document.getElementById('none_card').style.display="none";
         }
+        popup.style.display="none";
       } else if (black_mana.checked){
         if (document.getElementById('black_card').style.display="none"){
           document.getElementById('black_card').style.display="table-cell";
@@ -391,6 +394,7 @@
           document.getElementById('none_card').style.display="none";
         }
         document.getElementById('red_card').style.display="none";
+        popup.style.display="none";
       } else if (blue_mana.checked){
         if (document.getElementById('blue_card').style.display="none"){
           document.getElementById('blue_card').style.display="table-cell";
@@ -412,6 +416,7 @@
         }
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
+        popup.style.display="none";
       } else if (white_mana.checked){
         if (document.getElementById('white_card').style.display="none"){
           document.getElementById('white_card').style.display="table-cell";
@@ -429,6 +434,7 @@
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
+        popup.style.display="none";
       } else if (green_mana.checked){
         if (document.getElementById('green_card').style.display="none"){
           document.getElementById('green_card').style.display="table-cell";
@@ -442,6 +448,7 @@
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
+        popup.style.display="none";
       } else if (none_mana.checked){
         if (document.getElementById('none_card').style.display="none"){
           document.getElementById('none_card').style.display="table-cell";
@@ -451,13 +458,9 @@
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
         document.getElementById('green_card').style.display="none";
+        popup.style.display="none";
       } else {
-        document.getElementById('red_card').style.display="none";
-        document.getElementById('black_card').style.display="none";
-        document.getElementById('blue_card').style.display="none";
-        document.getElementById('white_card').style.display="none";
-        document.getElementById('green_card').style.display="none";
-        document.getElementById('none_card').style.display="none";
+        popup.style.display="inline";
       }
     });
 
