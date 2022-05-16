@@ -121,7 +121,9 @@
       <input type="checkbox" id="white_type" name="card_type" placeholder="White type of mana">White Mana Type<br>
       <input type="checkbox" id="green_type" name="card_type" placeholder="Green type of mana">Green Mana Type
       <input type="checkbox" id="none_type" name="card_type" placeholder="None type of mana">None Mana Type<br>
+      <input type="button" id="check" onclick="check_uncheck()" value="Select all">
       <input type="submit" value="Filter Table">
+      <span id="filter_error"style="color:red; display:none;">Please pick a filter</span>
     </fieldset>
   </form>
 
@@ -331,6 +333,7 @@
 
     form1.addEventListener('submit', (event) => {
       event.preventDefault();
+      var popup = document.getElementById('filter_error');
       var red_mana = form1.elements[1];
       var black_mana = form1.elements[2];
       var blue_mana = form1.elements[3];
@@ -367,6 +370,7 @@
         } else {
           document.getElementById('none_card').style.display="none";
         }
+        popup.style.display="none";
       } else if (black_mana.checked){
         if (document.getElementById('black_card').style.display="none"){
           document.getElementById('black_card').style.display="table-cell";
@@ -392,6 +396,7 @@
           document.getElementById('none_card').style.display="none";
         }
         document.getElementById('red_card').style.display="none";
+        popup.style.display="none";
       } else if (blue_mana.checked){
         if (document.getElementById('blue_card').style.display="none"){
           document.getElementById('blue_card').style.display="table-cell";
@@ -413,6 +418,7 @@
         }
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
+        popup.style.display="none";
       } else if (white_mana.checked){
         if (document.getElementById('white_card').style.display="none"){
           document.getElementById('white_card').style.display="table-cell";
@@ -430,6 +436,7 @@
         document.getElementById('red_card').style.display="none";
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
+        popup.style.display="none";
       } else if (green_mana.checked){
         if (document.getElementById('green_card').style.display="none"){
           document.getElementById('green_card').style.display="table-cell";
@@ -443,6 +450,7 @@
         document.getElementById('black_card').style.display="none";
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
+        popup.style.display="none";
       } else if (none_mana.checked){
         if (document.getElementById('none_card').style.display="none"){
           document.getElementById('none_card').style.display="table-cell";
@@ -452,13 +460,9 @@
         document.getElementById('blue_card').style.display="none";
         document.getElementById('white_card').style.display="none";
         document.getElementById('green_card').style.display="none";
+        popup.style.display="none";
       } else {
-        document.getElementById('red_card').style.display="none";
-        document.getElementById('black_card').style.display="none";
-        document.getElementById('blue_card').style.display="none";
-        document.getElementById('white_card').style.display="none";
-        document.getElementById('green_card').style.display="none";
-        document.getElementById('none_card').style.display="none";
+        popup.style.display="inline";
       }
     });
 
@@ -468,7 +472,7 @@
       event.preventDefault();
       var choice = form2.elements[1];
       var list, i, switching, b, should_switch;
-      list = document.getElementById("cards_row");
+      list = document.getElementById("myTable");
       switching = true
 
       if (choice.value === "Sort") {
@@ -476,11 +480,12 @@
       } else if (choice.value === "Mana cost"){
         while (switching) {
           switching = false;
-          b = list.getElementsByTagName("DIV");
-          for (i = 0; i < (b.length - 1); i++) {
+          cards = list.getElementsByTagName("TR");
+          
+          for (i = 0; i < (cards.length - 1); i++) {
             should_switch = false;
-            var str1 = b[i].innerHTML.toString();
-            var str2 = b[i+1].innerHTML.toString();
+            var str1 = cards[i].getElementsByTagName("TD")[1];
+            var str2 = cards[i+1].getElementsByTagName("TD")[1];
             var matches1 = str1.match(/(\d+)/)[0];
             var matches2 = str2.match(/(\d+)/)[0];
             if (matches1 > matches2){
@@ -489,32 +494,47 @@
             }
           }
           if (should_switch) {
-            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
             switching = true;
           }
         }
       } else if (choice.value === "Name"){
         while (switching) {
           switching = false;
-          b = list.getElementsByTagName("DIV");
-          for (i = 0; i < (b.length - 1); i++) {
+          cards = list.getElementsByTagName("TR");
+          for (i = 0; i < (cards.length - 1); i++) {
             should_switch = false;
-            var str1 = b[i].innerHTML.toString();
-            var str2 = b[i+1].innerHTML.toString();
-            var cleaned1 = str1.replace(/[0-9]/g, '');
-            var cleaned2 = str2.replace(/[0-9]/g, '');
-            if (cleaned1 > cleaned2){
+            var str1 = cards[i].getElementsByTagName('TD')[2];
+            var str2 = cards[i+1].getElementsByTagName('TD')[2];
+            if (str1 > str2){
               should_switch= true;
               break;
             }
           }
           if (should_switch) {
-            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
             switching = true;
           }
         }
       } 
     })
+
+    function check_uncheck() {
+      var checkbox = document.getElementsByName('card_type');
+      var button = document.getElementById('check');
+      if(checkbox[1].checked){
+        for (var checkbox of checkbox) {
+          checkbox.checked = false;
+          button.value= 'Select all';
+        }
+      } else {
+        for (var checkbox of checkbox) {
+          checkbox.checked = true;
+          button.value= 'Unselect all';
+        }
+      }
+      
+    }
 
   </script>
 </body>

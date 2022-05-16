@@ -340,6 +340,7 @@ table, th, td {
 table {
   border-collapse: collapse;
 }
+<<<<<<< HEAD
 /* For small laptops */
 @media only screen and (max-width: 1300px) {
   .add-card input[type="submit"],
@@ -371,6 +372,57 @@ table {
 }
 /* For tablets and small screens */
 @media only screen and (max-width: 900px) {
+=======
+
+.about{
+  background-color: #A6A6A6;
+}
+
+.about h1 {
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #555;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.about h2 {
+  padding-left: 10px;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+
+.about p {
+  padding-left: 10px;
+}
+
+.help {
+  background-color: #A6A6A6;
+}
+
+.help h1 {
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #555;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.help h2 {
+  padding-left: 10px;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+
+.help p {
+  padding-left: 10px;
+}
+@media only screen and (max-width: 700px) {
+>>>>>>> a670ed17ee59244870fbb2f15d87dd100944fe17
   html {
     padding: .3rem;
   }
