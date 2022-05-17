@@ -4,12 +4,14 @@ let currentUserId = null;
 function maintainLoggedIn(userId, username) {
   let loginPanel = document.getElementById("loginPanelInfo");
 
-  // console.log(userId + " " + username);
   currentUserId = userId;
   loginPanel.innerHTML = `User Info: logged as @${username}. <a href="#" class="openBox" origin="logout" onclick="logout()">Logout</a>`;
   
-  populateCardTable();
-
+  // Checks if page is index and populate table in case users is logged in
+  let currentPage = window.location.href;
+  if (!currentPage.includes("decks") && !currentPage.includes("about") && !currentPage.includes("help")) {
+    populateCardTable();
+  };
 }
 
 window.onload = async function () {
@@ -131,6 +133,6 @@ const logout = async function() {
   if (response.status === 200) {
     location.reload();
   } else {
-    alertBox("Server not responding. Please, refresh page.")
+    alertBox("Server not responding. Please, refresh page.");
   }
 };
