@@ -51,7 +51,7 @@ express()
     const client = await pool.connect();
     if (userState.user_id === undefined) {
       var locals = {
-        'decks': "User is not logged in"
+        'decks': null
       };
       
     } else {
@@ -218,14 +218,17 @@ express()
       const userId = req.body.user_id;
 
       
-
+      /*
       console.log(`INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
+      */
 
       const sqlInsert = await client.query(
         `INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
+    
 
       res.send(`${deckName} has been created.`);
+
       client.release();
     }
     catch (err) {
@@ -238,9 +241,16 @@ express()
       const client = await pool.connect();
       const selDeckId = req.body.deck_id;
 
-      const deckCards = `SELECT * FROM deck_card WHERE deck_id = '${selDeckId}';`
+      const deckCards = `SELECT deck_id, card_id FROM deck_card WHERE deck_id = '${selDeckId}';`
 
-      res.json(deckCards);
+      const result = {
+        'deck_list': (deckCards) ? deckCards.rows : null
+      };
+
+      if (result != undefined) {
+        res.json(result);
+      }
+      
       client.release();
 
     } catch (err) {

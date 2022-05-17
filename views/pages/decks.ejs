@@ -134,11 +134,12 @@
 
   <br><br><br><br><br><br><br><br><label for="selDeck">Select Deck: </label>
   <select name="selDeck" id="selDeck">
-    <% decks.forEach(function(r) { %>
-      <% if (decks !== null) { %>
+    <% if (decks !== null) { %>
+      <% decks.forEach(function(r) { %>
         <option value="<%= r.deck_id %>"><%= r.deck_name %></option>
-      <% }; %>
-    <% }); %>
+      <% }); %>
+    <% }; %>
+    
   </select>
   <input type="submit" id="displayDeck" value="Select Deck" onclick="javascript:selDeckDisplay()">
 
@@ -147,9 +148,13 @@
     <p id="selDeckFormat"></p>
     <table id="deckList">
       <th>Cards</th>
-      <% deck_cards.forEach(function(r) { %>
-        <td id="cardInfo"><%= deck_cards.deck_id %></td>
-      <% }); %>
+      <tr>
+        <% if (decks !== null) { %> 
+          <% deck_cards.forEach(function(r) { %>
+            <td id="cardInfo"><%= deck_cards.deck_id %></td>
+          <% }); %>
+        <% }; %>
+      </tr>
     </table>
   </div>
 
@@ -162,24 +167,30 @@
       const userId = currentUserId;
       console.log(userId);
 
-      const response = await fetch('/createDeck', {
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          deck_name: newDeckName,
-          deck_desc: deckDesc,
-          deck_format: deckFormat,
-          user_id: userId
-        })
-      });
-      
-      const result = await response.text();
-      const deckMsg = document.getElementById('deckCreateMsg');
-      deckMsg.innerHTML = result;
+      if (newDeckName.trim() === "") {
+        alertBox("Please enter a deck name.");
+      } else {
+
+        const response = await fetch('/createDeck', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            deck_name: newDeckName,
+            deck_desc: deckDesc,
+            deck_format: deckFormat,
+            user_id: userId
+          })
+        });
+        
+        const result = await response.text();
+        const deckMsg = document.getElementById('deckCreateMsg');
+        deckMsg.innerHTML = result;
+      }
     }
+  
 
     const addCardToDeck = async function() {
       const selDeck = document.getElementById('selDeck');
@@ -288,6 +299,7 @@
         });
 
         const result = await response.json();
+        console.log(result);
 
       }
       
