@@ -113,11 +113,12 @@
 
   <br><br><br><br><br><br><br><br><label for="selDeck">Select Deck: </label>
   <select name="selDeck" id="selDeck">
-    <% decks.forEach(function(r) { %>
-      <% if (decks !== null) { %>
+    <% if (decks !== null) { %>
+      <% decks.forEach(function(r) { %>
         <option value="<%= r.deck_id %>"><%= r.deck_name %></option>
-      <% }; %>
-    <% }); %>
+      <% }); %>
+    <% }; %>
+    
   </select>
   <input type="submit" id="displayDeck" value="Select Deck" onclick="javascript:selDeckDisplay()">
 
@@ -127,9 +128,11 @@
     <table id="deckList">
       <th>Cards</th>
       <tr>
-        <% deck_cards.forEach(function(r) { %>
-          <td id="cardInfo"><%= deck_cards.deck_id %></td>
-        <% }); %>
+        <% if (decks !== null) { %> 
+          <% deck_cards.forEach(function(r) { %>
+            <td id="cardInfo"><%= deck_cards.deck_id %></td>
+          <% }); %>
+        <% }; %>
       </tr>
     </table>
   </div>

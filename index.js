@@ -51,7 +51,7 @@ express()
     const client = await pool.connect();
     if (userState.user_id === undefined) {
       var locals = {
-        'decks': "User is not logged in"
+        'decks': null
       };
       
     } else {
