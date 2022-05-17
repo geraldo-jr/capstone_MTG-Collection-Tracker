@@ -167,24 +167,30 @@
       const userId = currentUserId;
       console.log(userId);
 
-      const response = await fetch('/createDeck', {
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          deck_name: newDeckName,
-          deck_desc: deckDesc,
-          deck_format: deckFormat,
-          user_id: userId
-        })
-      });
-      
-      const result = await response.text();
-      const deckMsg = document.getElementById('deckCreateMsg');
-      deckMsg.innerHTML = result;
+      if (newDeckName.trim() === "") {
+        alertBox("Please enter a deck name.");
+      } else {
+
+        const response = await fetch('/createDeck', {
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            deck_name: newDeckName,
+            deck_desc: deckDesc,
+            deck_format: deckFormat,
+            user_id: userId
+          })
+        });
+        
+        const result = await response.text();
+        const deckMsg = document.getElementById('deckCreateMsg');
+        deckMsg.innerHTML = result;
+      }
     }
+  
 
     const addCardToDeck = async function() {
       const selDeck = document.getElementById('selDeck');

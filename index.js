@@ -218,14 +218,17 @@ express()
       const userId = req.body.user_id;
 
       
-
+      /*
       console.log(`INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`);
+      */
 
       const sqlInsert = await client.query(
         `INSERT INTO deck (user_id, deck_name, description, type_id) values ('${userId}', '${deckName}', '${deckDesc}', '${deckFormat}');`
       )
+    
 
       res.send(`${deckName} has been created.`);
+
       client.release();
     }
     catch (err) {
