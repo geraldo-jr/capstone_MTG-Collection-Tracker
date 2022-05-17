@@ -488,7 +488,14 @@ table {
   }
   #card-table-display > table {
     width: 100%;
-}
+  }
+  #myTable thead tr th:first-child,
+  #myTable tbody tr td:first-child,
+  #myTable thead tr th:nth-child(10),
+  #myTable tbody tr td:nth-child(10)
+  {
+    display: none;
+  }
 }
 @media only screen and (max-width: 720px) {
   header {
@@ -549,17 +556,11 @@ table {
     font-size: .9em;
     width: 70%;
   }
-  #myTable thead tr th:first-child,
-  #myTable tbody tr td:first-child {
-    display: none;
-  }
 }
 @media only screen and (max-width: 670px) {
   #myTable thead tr th:nth-child(5),
-  #myTable thead tr th:nth-child(10),
   #myTable thead tr th:nth-child(12),
   #myTable tbody tr td:nth-child(5), 
-  #myTable tbody tr td:nth-child(10),
   #myTable tbody tr td:nth-child(12) {
     display: none;
   }
