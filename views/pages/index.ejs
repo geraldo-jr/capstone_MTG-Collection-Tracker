@@ -82,10 +82,6 @@
       </div>
     </div>
   </header>
-
-  <a href="db-info">Check DB insert and info</a>
-  <br>
-  <br>
   
   <fieldset class="add-card">
     <legend><p>Add card</p></legend>
@@ -94,9 +90,11 @@
     <p id="card-info">Card Selected: <span id="card-selected-info">-</span></p>
     <label for="numOfCopies">Copies:</label>
     <input type="number" name="numOfCopies" id="num-of-copies" min="1" max="99" value="1">
-    <span>Foiled:</span>
-    <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
-    <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
+    <div class="foiled-radio-options">
+      <span>Foiled:</span>
+      <input type="radio" name="foiled" id="yes-foiled" value="true"><label for="foiled">Yes</label>
+      <input type="radio" name="foiled" id="not-foiled" value="false" checked="false"><label for="notFoiled">No</label>
+    </div>
     <br>
     
     <input type="submit" name="addCard" value="Add Card" onclick="addCardToCollection()">
@@ -470,7 +468,7 @@
       event.preventDefault();
       var choice = form2.elements[1];
       var list, i, switching, b, should_switch;
-      list = document.getElementById("card-table-rows");
+      list = document.getElementById("myTable");
       switching = true
 
       if (choice.value === "Sort") {
@@ -504,9 +502,7 @@
             should_switch = false;
             var str1 = cards[i].getElementsByTagName('TD')[2];
             var str2 = cards[i+1].getElementsByTagName('TD')[2];
-            var cleaned1 = str1.replace(/[0-9],/g, '');
-            var cleaned2 = str2.replace(/[0-9],/g, '');
-            if (cleaned1 > cleaned2){
+            if (str1 > str2){
               should_switch= true;
               break;
             }
