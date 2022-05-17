@@ -7,7 +7,7 @@ header {
   width: 100%;
   font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
   position: relative;
-  height: 5rem;
+  height: 8rem;
 }
 .logo-mtg-name {
   width: 20%;
@@ -340,7 +340,47 @@ table, th, td {
 table {
   border-collapse: collapse;
 }
-<<<<<<< HEAD
+
+.about{
+  background-color: #A6A6A6;
+}
+.about h1 {
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #555;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+.about h2 {
+  padding-left: 10px;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+.about p {
+  padding-left: 10px;
+}
+.help {
+  background-color: #A6A6A6;
+}
+.help h1 {
+  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #555;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+.help h2 {
+  padding-left: 10px;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+.help p {
+  padding-left: 10px;
+}
 /* For small laptops */
 @media only screen and (max-width: 1300px) {
   .add-card input[type="submit"],
@@ -370,64 +410,31 @@ table {
     margin: auto 0;
   }
 }
-/* For tablets and small screens */
-@media only screen and (max-width: 900px) {
-=======
 
-.about{
-  background-color: #A6A6A6;
-}
-
-.about h1 {
-  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
-  text-align: center;
-  color: white;
-  padding: 10px;
-  background-color: #555;
-  text-decoration: underline;
-  text-decoration-color: white;
-}
-
-.about h2 {
-  padding-left: 10px;
-  text-decoration: underline;
-  text-decoration-color: #000;
-}
-
-.about p {
-  padding-left: 10px;
-}
-
-.help {
-  background-color: #A6A6A6;
-}
-
-.help h1 {
-  font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
-  text-align: center;
-  color: white;
-  padding: 10px;
-  background-color: #555;
-  text-decoration: underline;
-  text-decoration-color: white;
-}
-
-.help h2 {
-  padding-left: 10px;
-  text-decoration: underline;
-  text-decoration-color: #000;
-}
-
-.help p {
-  padding-left: 10px;
-}
-@media only screen and (max-width: 700px) {
->>>>>>> a670ed17ee59244870fbb2f15d87dd100944fe17
-  html {
+@media only screen and (max-width: 1000px) {
+  
+  #card-table {
+    padding: 5px;
+  }
+  #card-table-menu ul {
     padding: .3rem;
   }
-  header {
-    height: 7rem;
+  #cardSelectionInput {
+    font-size: .8em;
+    width: 55%;
+  }
+  #card-table-menu li {
+    font-size: .91em;
+    height: 1.3rem;
+  }
+  #card-table-display {
+    font-size: .81em;
+  }
+}
+/* For tablets and small screens */
+@media only screen and (max-width: 900px) {
+  html {
+    padding: .15rem;
   }
   .nav li {
     width: 25%;
@@ -436,6 +443,7 @@ table {
   .login-panel h4 {
     margin: auto;
     padding: .1rem;
+    font-size: .9em;
   }
   .login-panel {
     margin: 1em auto 0;
@@ -452,29 +460,43 @@ table {
     font-size: 1em;
     height: 0.91em;
   }
-  #cardSelectionInput {
-    font-size: .8em;
-    width: 55%;
-  }
-  #card-table-menu li {
-    font-size: .91em;
-    height: 1.3rem;
-  }
-  #card-table-display {
-    font-size: .81em;
-  }
   .foiled-radio-options {
     width: 50%;
     display: block;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 820px) {
+  #card-table-menu {
+    width: 100%;
+    height: 90px;
+  }
+  #card-table-menu ul {
+    width: 100%;
+  }
+  #card-table-menu li {
+    font-size: 1.1em;
+    height: 2rem;
+    display: inline;
+    margin: 10px;
+  }
+  .cards_box {
+    display: none;
+  }
+  #card-table-display > table {
+    width: 100%;
+}
+}
+@media only screen and (max-width: 720px) {
   header {
     position: relative;
     margin: 0%;
+    height: 7rem;
+  }
+  .logo-mtg-name h2,
+  .login-panel h4  {
+    font-size: 1.1em;
   }
   .logo-mtg-name {
-    font-size: medium;
     padding: 0%;
     margin-right: 2px;
   }
@@ -507,9 +529,42 @@ table {
     padding: .5rem;
   }
   .add-card, .filter-cards {
+    clear: both;
     width: 97%;
     display: block;
-    height: 6rem;
     padding: .31rem;
+  }
+  .add-card {
+    height: 9rem;
+    margin-bottom: 22px;
+  }
+  .add-card label{
+    margin: 9px;
+  }
+  #cardSelectionInput {
+    font-size: .9em;
+    width: 70%;
+  }
+  #myTable thead tr th:first-child,
+  #myTable tbody tr td:first-child {
+    display: none;
+  }
+}
+@media only screen and (max-width: 670px) {
+  #myTable thead tr th:nth-child(5),
+  #myTable thead tr th:nth-child(10),
+  #myTable thead tr th:nth-child(12),
+  #myTable tbody tr td:nth-child(5), 
+  #myTable tbody tr td:nth-child(10),
+  #myTable tbody tr td:nth-child(12) {
+    display: none;
+  }
+}
+@media only screen and (max-width: 540px) {
+  #cardSelectionInput {
+    width: 65%;
+  }
+  #myTable {
+    font-size: .97em;
   }
 }
