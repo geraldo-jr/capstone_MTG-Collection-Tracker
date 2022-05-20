@@ -362,7 +362,9 @@ table {
 }
 .help {
   background-color: #A6A6A6;
+  text-align: center;
 }
+
 .help h1 {
   font-family: 'MedievalSharp', 'Arial Narrow', Arial, sans-serif;
   text-align: center;
@@ -373,13 +375,44 @@ table {
   text-decoration-color: white;
 }
 .help h2 {
+  text-align: center;
   padding-left: 10px;
   text-decoration: underline;
   text-decoration-color: #000;
 }
-.help p {
-  padding-left: 10px;
+
+.help form {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2vw 4vw;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
 }
+
+.help form input, form textarea{
+  border: 0;
+  margin: 10px 0;
+  padding: 20px;
+  outline: none;
+  background-color: #f5f5f5;
+  font-size: 16px;
+}
+
+.help form button{
+  padding: 15px;
+  background: #555;
+  color: #eee;
+  font-size: 18px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  width: 150px;
+  margin: 20px auto 0;
+  border-radius: 30px;
+}
+
 #num-of-copies {
   width: 3.5em;
 }

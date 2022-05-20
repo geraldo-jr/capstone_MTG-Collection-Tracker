@@ -84,8 +84,21 @@
   </header>
   <div class="help">
     <h1>Need help?</h1>
-    <h2>Check out our FAQ or contact us</h2>
+    <form onsubmit="sendEmail(); reset(); return false;">
+      <h2 id="confirm">Check out our FAQ or contact us</h2>
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Email id" required>
+      <input type="text" id="phone" placeholder="Phone no." required>
+      <textarea id="message" rows="4" placeholder="How can we help you?"></textarea>
+      <button type="submit">Send</button>
+    </form>
   </div>
   <script src="/JS/loginPanels.js"></script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script>
+    function sendEmail() {
+      document.getElementById('confirm').innerHTML = "Thank you for contacting us!"
+    }
+  </script>
 </body>
 </html>
