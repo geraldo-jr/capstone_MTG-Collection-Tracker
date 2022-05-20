@@ -469,20 +469,19 @@
       event.preventDefault();
       var choice = form2.elements[1];
       var list, i, switching, b, should_switch;
-      list = document.getElementById("myTable");
+      list = document.getElementById("cards_row");
       switching = true
 
       if (choice.value === "Sort") {
-        alertBox("Please pick an option to sort by.")
+        alert("Please pick an option to sort by.")
       } else if (choice.value === "Mana cost"){
         while (switching) {
           switching = false;
-          cards = list.getElementsByTagName("TR");
-          
-          for (i = 0; i < (cards.length - 1); i++) {
+          b = list.getElementsByTagName("DIV");
+          for (i = 0; i < (b.length - 1); i++) {
             should_switch = false;
-            var str1 = cards[i].getElementsByTagName("TD")[1];
-            var str2 = cards[i+1].getElementsByTagName("TD")[1];
+            var str1 = b[i].innerHTML.toString();
+            var str2 = b[i+1].innerHTML.toString();
             var matches1 = str1.match(/(\d+)/)[0];
             var matches2 = str2.match(/(\d+)/)[0];
             if (matches1 > matches2){
@@ -491,47 +490,32 @@
             }
           }
           if (should_switch) {
-            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
+            b[i].parentNode.insertBefore(b[i + 1], b[i]);
             switching = true;
           }
         }
       } else if (choice.value === "Name"){
         while (switching) {
           switching = false;
-          cards = list.getElementsByTagName("TR");
-          for (i = 0; i < (cards.length - 1); i++) {
+          b = list.getElementsByTagName("DIV");
+          for (i = 0; i < (b.length - 1); i++) {
             should_switch = false;
-            var str1 = cards[i].getElementsByTagName('TD')[2];
-            var str2 = cards[i+1].getElementsByTagName('TD')[2];
-            if (str1 > str2){
+            var str1 = b[i].innerHTML.toString();
+            var str2 = b[i+1].innerHTML.toString();
+            var cleaned1 = str1.replace(/[0-9]/g, '');
+            var cleaned2 = str2.replace(/[0-9]/g, '');
+            if (cleaned1 > cleaned2){
               should_switch= true;
               break;
             }
           }
           if (should_switch) {
-            cards[i].parentNode.insertBefore(cards[i + 1], cards[i]);
+            b[i].parentNode.insertBefore(b[i + 1], b[i]);
             switching = true;
           }
         }
       } 
     })
-
-    function check_uncheck() {
-      var checkbox = document.getElementsByName('card_type');
-      var button = document.getElementById('check');
-      if(checkbox[1].checked){
-        for (var checkbox of checkbox) {
-          checkbox.checked = false;
-          button.value= 'Select all';
-        }
-      } else {
-        for (var checkbox of checkbox) {
-          checkbox.checked = true;
-          button.value= 'Unselect all';
-        }
-      }
-      
-    }
 
   </script>
 </body>
